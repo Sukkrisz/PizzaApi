@@ -1,5 +1,4 @@
 ﻿using Core.Data.Repositories;
-using Core.Data.Repositories.Interfaces;
 using Data.Db.Network;
 using Data.Db.Repositories.Interfaces;
 
@@ -25,6 +24,7 @@ namespace PizzaAPI
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             services.AddSingleton<IToppingRepo, ToppingRepo>();
             services.AddSingleton<IPizzaRepo, PizzaRepo>();
+            services.AddSingleton<IOrderRepo, OrderRepo>();
         }
 
         public static IServiceCollection AddMediatRToAssemblies(this IServiceCollection services)

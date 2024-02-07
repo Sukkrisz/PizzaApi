@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PizzaAPI.Dtos;
+using PizzaAPI.Dtos.Pizza;
 using PizzaAPI.Queries;
 
 namespace PizzaAPI.Controllers

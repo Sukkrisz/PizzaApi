@@ -1,10 +1,10 @@
-﻿namespace PizzaAPI.Dtos
+﻿namespace PizzaAPI.Dtos.Pizza
 {
     public struct PizzaDto
     {
         public string Name { get; set; }
 
-        public float BasePrice { get; set; }
+        public ushort BasePrice { get; set; }
 
         public ToppingDto[] Toppings { get; set; }
 
@@ -12,7 +12,7 @@
         {
         }
 
-        public PizzaDto(string name, float basePrice, ToppingDto[] toppings)
+        public PizzaDto(string name, ushort basePrice, ToppingDto[] toppings)
         {
             Name = name;
             BasePrice = basePrice;

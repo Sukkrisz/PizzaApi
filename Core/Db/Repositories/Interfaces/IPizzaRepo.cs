@@ -1,4 +1,4 @@
-﻿using Core.Data.Models;
+﻿using Data.Db.Models.Pizza;
 
 namespace Data.Db.Repositories.Interfaces
 {

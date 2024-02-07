@@ -24,9 +24,9 @@ namespace Infrastructure.Mediator
             this.Value = value;
         }
 
-        public static Result<Unit> Ok()
+        public static Result Ok()
         {
-            return new Result<Unit>() { Value = Unit.Value };
+            return new Result();
         }
 
         public static Result<T> Ok<T>(T result)

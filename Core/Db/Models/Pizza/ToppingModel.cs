@@ -1,18 +1,16 @@
-﻿using Data.Db.Models;
-
-namespace Core.Data.Models
+﻿namespace Data.Db.Models.Pizza
 {
     public struct ToppingModel : IModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public float Price { get; set; }
+        public ushort Price { get; set; }
 
         public ToppingModel()
         {
         }
 
-        public ToppingModel(string name, float price)
+        public ToppingModel(string name, ushort price)
         {
             Name = name;
             Price = price;

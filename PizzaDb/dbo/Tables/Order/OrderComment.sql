@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[OrderComment]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+    [Comment] NVARCHAR(100) NOT NULL
+)

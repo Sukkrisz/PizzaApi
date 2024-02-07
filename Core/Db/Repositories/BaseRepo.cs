@@ -1,16 +1,16 @@
-﻿using Core.Data.Models;
-using Dapper;
-using Data.Db.DbAccess;
+﻿using Data.Db.DbAccess;
 
 namespace Data.Db.Repositories
 {
     public abstract class BaseRepo
     {
-        protected readonly ISqlDataAccess _db;
+        protected Dictionary<DataAccessTypes, string> _storedProcs;
 
-        public BaseRepo(ISqlDataAccess db)
+        protected readonly ISqlDataAccess _sqlDataAccess;
+
+        public BaseRepo(ISqlDataAccess sqlDataAccess)
         {
-            _db = db;
+            _sqlDataAccess = sqlDataAccess;
         }
     }
 }

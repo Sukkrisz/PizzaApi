@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Data.Db.Models.Order;
 
-namespace Core.Data.Repositories.Interfaces
+namespace Data.Db.Repositories.Interfaces
 {
-    internal interface IOrderRepo
+    public interface IOrderRepo
     {
+        Task Create(OrderModel order, int[]PizzaIds);
+
+        Task<OrderModel> GetWithPizzas(int orderId);
     }
 }

@@ -1,5 +1,5 @@
-﻿using Core.Data.Models;
-using Data.Db.DbAccess;
+﻿using Data.Db.DbAccess;
+using Data.Db.Models.Pizza;
 using Data.Db.Repositories;
 using Data.Db.Repositories.Interfaces;
 
@@ -23,12 +23,12 @@ namespace Core.Data.Repositories
 
         public Task<IEnumerable<ToppingModel>> GetAllToppings()
         {
-            return _db.LoadDataAsync<ToppingModel, dynamic>(_storedProcs[DataAccessTypes.GetAll], new { });
+            return _sqlDataAccess.LoadDataAsync<ToppingModel, dynamic>(_storedProcs[DataAccessTypes.GetAll], new { });
         }
 
         public async Task<ToppingModel?> GetToppingAsync(int id)
         {
-            var results = await _db.LoadDataAsync<ToppingModel, dynamic>(
+            var results = await _sqlDataAccess.LoadDataAsync<ToppingModel, dynamic>(
                                         _storedProcs[DataAccessTypes.Get],
                                         new { Id = id });
             return results.FirstOrDefault();
@@ -36,21 +36,21 @@ namespace Core.Data.Repositories
 
         public Task InsertTopping(ToppingModel topping)
         {
-            return _db.SaveDataAsync(
+            return _sqlDataAccess.SaveDataAsync(
                                 _storedProcs[DataAccessTypes.Add],
                                 new { topping.Name, topping.Price });
         }
 
         public Task UpdateTopping(ToppingModel topping)
         {
-            return _db.SaveDataAsync(
+            return _sqlDataAccess.SaveDataAsync(
                                 _storedProcs[DataAccessTypes.Update],
                                 topping);
         }
 
         public Task DeleteTopping(int id)
         {
-            return _db.SaveDataAsync(
+            return _sqlDataAccess.SaveDataAsync(
                                 _storedProcs[DataAccessTypes.Delete],
                                 new { Id = id });
         }

@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Mediator;
 using MediatR;
-using PizzaAPI.Dtos;
+using PizzaAPI.Dtos.Pizza;
 
 namespace PizzaAPI.Queries
 {

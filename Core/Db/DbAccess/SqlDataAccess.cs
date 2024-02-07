@@ -83,6 +83,14 @@ namespace Data.Db.DbAccess
             }
         }
 
+        public async Task<int> SaveWithOutput<T>(string spName, T parameters)
+        {
+            using (IDbConnection conn = new SqlConnection(_settings.Value.ConnectionStrings.PizzaDb))
+            {
+                return await conn.QuerySingleAsync<int>(spName, param: parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
         public async Task SaveDataAsync<T>(string spName, T parameters)
         {
             using (IDbConnection conn = new SqlConnection(_settings.Value.ConnectionStrings.PizzaDb))

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="5326dddf-20f8-4f0b-8411-47d03084b708" ChangeDateTime="02/06/2024 23:11:09">
+    <Property Name="ElementName" Value="[dbo].[Order].[OrderComment]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Order]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrderCommentId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="37439e3e-d861-4cc0-9dc7-08a680df2da5" ChangeDateTime="02/06/2024 23:29:52">
+    <Property Name="ElementName" Value="[dbo].[Order].[OrderPlaced]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Order]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrderPlacedTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="865cd063-a3a9-41b9-a138-70c513784351" ChangeDateTime="02/06/2024 23:36:15">
+    <Property Name="ElementName" Value="[dbo].[Address].[Line1]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Address]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="City" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1d350bbf-5fee-4eae-9813-2c34dc84e815" ChangeDateTime="02/07/2024 01:55:19">
+    <Property Name="ElementName" Value="[dbo].[Order].[OrderPlacedTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Order]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrderDate" />
+  </Operation>
+</Operations>

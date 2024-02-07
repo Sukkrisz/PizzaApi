@@ -25,6 +25,18 @@ namespace PizzaAPI.Controllers
             }
         }
 
+        protected ActionResult FromResult(Result res)
+        {
+            if (res.IsSuccess)
+            {
+                return this.Ok();
+            }
+            else
+            {
+                return this.BadRequest(res.Errors);
+            }
+        }
+
         protected ActionResult<T> FromResult<T>(Result<T> res)
         {
             if (res.IsSuccess)

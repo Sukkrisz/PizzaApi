@@ -1,5 +1,5 @@
-﻿using Core.Data.Models;
-using PizzaAPI.Dtos;
+﻿using Data.Db.Models.Pizza;
+using PizzaAPI.Dtos.Pizza;
 
 namespace PizzaAPI.Mappers
 {

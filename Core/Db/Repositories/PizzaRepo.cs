@@ -1,5 +1,5 @@
-﻿using Core.Data.Models;
-using Data.Db.DbAccess;
+﻿using Data.Db.DbAccess;
+using Data.Db.Models.Pizza;
 using Data.Db.Repositories;
 using Data.Db.Repositories.Interfaces;
 
@@ -7,8 +7,6 @@ namespace Core.Data.Repositories
 {
     public class PizzaRepo : BaseRepo, IPizzaRepo
     {
-        private readonly Dictionary<DataAccessTypes, string> _storedProcs;
-
         public PizzaRepo(ISqlDataAccess db) : base(db)
         {
             _storedProcs = new Dictionary<DataAccessTypes, string>()
@@ -33,7 +31,7 @@ namespace Core.Data.Repositories
 
         public Task<IEnumerable<PizzaModel>> GetAllAsync()
         {
-            return _db.LoadDataMultiObjectAsync<PizzaModel, ToppingModel, dynamic>(
+            return _sqlDataAccess.LoadDataMultiObjectAsync<PizzaModel, ToppingModel, dynamic>(
                                                                             _storedProcs[DataAccessTypes.GetAll],
                                                                             new { },
                                                                             nameof(PizzaModel.Toppings));

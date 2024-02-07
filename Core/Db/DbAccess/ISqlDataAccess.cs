@@ -12,5 +12,7 @@ namespace Data.Db.DbAccess
             where C : IModel;
 
         Task SaveDataAsync<T>(string spName, T parameters);
+
+        Task<int> SaveWithOutput<T>(string spName, T parameters);
     }
 }

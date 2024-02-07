@@ -61,12 +61,13 @@
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\StoredProcedures\Topping" />
     <Folder Include="dbo\StoredProcedures\Pizza" />
+    <Folder Include="dbo\StoredProcedures\Order" />
+    <Folder Include="dbo\Tables\Pizza" />
+    <Folder Include="dbo\Tables\Order" />
+    <Folder Include="dbo\Types" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Pizza.sql" />
     <Build Include="dbo\StoredProcedures\spCreateDemoPizzas.sql" />
-    <Build Include="dbo\Tables\Topping.sql" />
-    <Build Include="dbo\Tables\PizzaTopping.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Update.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Delete.sql" />
@@ -78,8 +79,23 @@
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_Delete.sql" />
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetList.sql" />
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_GetAllSince.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_Create.sql" />
+    <Build Include="dbo\Tables\Order\Address.sql" />
+    <Build Include="dbo\Tables\Order\Order.sql" />
+    <Build Include="dbo\Tables\Order\OrderComment.sql" />
+    <Build Include="dbo\Tables\Pizza\Pizza.sql" />
+    <Build Include="dbo\Tables\Pizza\PizzaTopping.sql" />
+    <Build Include="dbo\Tables\Pizza\Topping.sql" />
+    <Build Include="dbo\Tables\Order\OrderPizza.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_AddPizzas.sql" />
+    <Build Include="dbo\Types\OrderPizzaUDT.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_GetWithPizzasEF.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PizzaDb.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PizzaDb.refactorlog" />
   </ItemGroup>
 </Project>

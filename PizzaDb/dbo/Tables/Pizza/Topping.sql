@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Topping]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Name] NCHAR(15) NOT NULL, 
+    [Name] NVARCHAR(15) NOT NULL, 
     [Price] SMALLINT NOT NULL DEFAULT 0
 )

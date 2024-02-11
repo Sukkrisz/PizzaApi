@@ -16,6 +16,8 @@ namespace Data.Db.Models.Order
 
         public List<PizzaModel>? Pizzas { get; set; }
 
+        public int PriceSum { get; set; }
+
         public OrderModel()
         {
         }

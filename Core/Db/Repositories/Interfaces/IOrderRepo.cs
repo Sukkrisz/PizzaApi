@@ -6,6 +6,8 @@ namespace Data.Db.Repositories.Interfaces
     {
         Task Create(OrderModel order, int[]PizzaIds);
 
+        Task<OrderModel> GetWithPizzasEF(int orderId);
+
         Task<OrderModel> GetWithPizzas(int orderId);
     }
 }

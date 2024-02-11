@@ -4,6 +4,8 @@ namespace Data.Db.Repositories.Interfaces
 {
     public interface IPizzaRepo
     {
+        public Task<PizzaModel> GetByIdAsync(int orderId);
+
         public Task<IEnumerable<PizzaModel>> GetAllAsync();
 
         /*public Task AddAsync(PizzaModel pizza);

@@ -2,9 +2,9 @@
 using Data.Db.DbAccess;
 using Data.Db.Models.Order;
 using Data.Db.Models.Pizza;
-using Data.Db.Network;
 using Data.Db.Repositories;
 using Data.Db.Repositories.Interfaces;
+using Infrastructure.Settings;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using System.Data;
@@ -16,17 +16,20 @@ namespace Core.Data.Repositories
         private const string ORDER_CONNECTOR_ID = "OrderId";
         private const string PIZZA_CONNECTOR_ID = "PizzaId";
         private const string ORDER_PIZZA_UDT_NAME = "OrderPizzaUDT";
+
         private const string ADD_PIZZAS_SP_NAME = "spOrder_AddPizzas";
+        private const string GET_PIZZAS_SP_NAME = "spPizza_GetAllToOrder";
 
-        private readonly IOptions<DbSettings> _settings;
+        private readonly IOptions<ConnectionStringSettings> _settings;
 
-        public OrderRepo(IOptions<DbSettings> settings, ISqlDataAccess sqlDataAccess) : base(sqlDataAccess)
+        public OrderRepo(IOptions<ConnectionStringSettings> settings, ISqlDataAccess sqlDataAccess) : base(sqlDataAccess)
         {
             _settings = settings;
-            _storedProcs = new Dictionary<DataAccessTypes, string>()
+            _storedProcs = new Dictionary<CommonDataAccessTypes, string>()
             {
-                { DataAccessTypes.Add, "spOrder_Create" },
-                { DataAccessTypes.GetAll, "spOrder_GetWithPizzasEF" }
+                { CommonDataAccessTypes.Add, "spOrder_Create" },
+                { CommonDataAccessTypes.Get, "spOrder_Get" },
+                { CommonDataAccessTypes.GetAll, "spOrder_GetWithPizzasEF" }
             };
         }
 
@@ -42,7 +45,7 @@ namespace Core.Data.Repositories
                 order.Address.Line2
             };
 
-            var orderId = await _sqlDataAccess.SaveWithOutput(_storedProcs[DataAccessTypes.Add], orderInputs);
+            var orderId = await _sqlDataAccess.SaveWithOutput(_storedProcs[CommonDataAccessTypes.Add], orderInputs);
 
             var orderPizzaConverted = ConvertToInputPizzas(orderId, pizzaIds);
             var pizzaInputs = new
@@ -55,13 +58,35 @@ namespace Core.Data.Repositories
 
         public async Task<OrderModel> GetWithPizzas(int orderId)
         {
+            using (IDbConnection conn = new SqlConnection(_settings.Value.PizzaDb))
+            {
+                var order = await conn.QuerySingleAsync<OrderModel>(
+                                                _storedProcs[CommonDataAccessTypes.Get],
+                                                new { OrderId = orderId },
+                                                commandType: CommandType.StoredProcedure);
+                if (order is not null)
+                {
+                    var pizzas = await _sqlDataAccess.LoadDataMultiObjectAsync<PizzaModel, ToppingModel, dynamic>(
+                                                                            _storedProcs[CommonDataAccessTypes.GetAll],
+                                                                            new { OrderId = order.Id },
+                                                                            nameof(PizzaModel.Toppings),
+                                                                            conn);
+                    order.Pizzas = pizzas?.ToList();
+                }
+
+                return order;
+            }
+        }
+
+        public async Task<OrderModel> GetWithPizzasEF(int orderId)
+        {
             var orders = new Dictionary<int, OrderModel>();
             var pizzas = new Dictionary<int, PizzaModel>();
 
-            using (IDbConnection conn = new SqlConnection(_settings.Value.ConnectionStrings.PizzaDb))
+            using (IDbConnection conn = new SqlConnection(_settings.Value.PizzaDb))
             {
                 _ = await conn.QueryAsync<OrderModel, AddressModel, PizzaModel, ToppingModel, OrderModel>(
-                    _storedProcs[DataAccessTypes.GetAll],
+                    sql: "spOrder_GetWithPizzasEF",
                     param: new { OrderId = orderId },
                     map: (order, address, pizza, topping) =>
                     {

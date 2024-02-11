@@ -73,7 +73,6 @@
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Delete.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_GetAll.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Get.sql" />
-    <Build Include="dbo\StoredProcedures\Pizza\spPizza_Get.sql" />
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_Update.sql" />
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_Delete.sql" />
@@ -91,9 +90,13 @@
     <Build Include="dbo\StoredProcedures\Order\spOrder_AddPizzas.sql" />
     <Build Include="dbo\Types\OrderPizzaUDT.sql" />
     <Build Include="dbo\StoredProcedures\Order\spOrder_GetWithPizzasEF.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_Get.sql" />
+    <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetAllToOrder.sql" />
+    <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PizzaDb.publish.xml" />
+    <None Include="PizzaDb_Azure.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PizzaDb.refactorlog" />

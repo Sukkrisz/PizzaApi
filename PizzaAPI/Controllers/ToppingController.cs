@@ -8,14 +8,22 @@ namespace PizzaAPI.Controllers
     [Route("[controller]")]
     public class ToppingController : BaseController
     {
-        [HttpGet("GetAll")]
+        /*[HttpGet("GetAll")]
         public async Task<ActionResult<ToppingDto[]>> GetAll()
         {
-            var query = new GetAllToppingsQuery();
-            var res = await this.Mediator.Send(query);
+            try
+            {
+                var query = new GetAllToppingsQuery();
+                var res = await this.Mediator.Send(query);
 
-            return this.FromResult(res);
-        }
+                return this.FromResult(res);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+            
+        }*/
 
         // POST: ToppingController/Create
         [HttpPost("Create")]

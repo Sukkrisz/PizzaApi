@@ -7,29 +7,29 @@ namespace Core.Data.Repositories
 {
     public class ToppingRepo : BaseRepo, IToppingRepo
     {
-        private readonly Dictionary<DataAccessTypes, string> _storedProcs;
+        private readonly Dictionary<CommonDataAccessTypes, string> _storedProcs;
 
         public ToppingRepo(ISqlDataAccess db) : base(db)
         {
-            _storedProcs = new Dictionary<DataAccessTypes, string>() 
+            _storedProcs = new Dictionary<CommonDataAccessTypes, string>() 
             {
-                { DataAccessTypes.Add, "dbo.spTopping_Insert" },
-                { DataAccessTypes.Get, "dbo.spTopping_Get" },
-                { DataAccessTypes.GetAll, "dbo.spTopping_GetAll" },
-                { DataAccessTypes.Update, "dbo.spTopping_Update" },
-                { DataAccessTypes.Delete, "dbo.spTopping_Delete" }
+                { CommonDataAccessTypes.Add, "dbo.spTopping_Insert" },
+                { CommonDataAccessTypes.Get, "dbo.spTopping_Get" },
+                { CommonDataAccessTypes.GetAll, "dbo.spTopping_GetAll" },
+                { CommonDataAccessTypes.Update, "dbo.spTopping_Update" },
+                { CommonDataAccessTypes.Delete, "dbo.spTopping_Delete" }
             };
         }
 
         public Task<IEnumerable<ToppingModel>> GetAllToppings()
         {
-            return _sqlDataAccess.LoadDataAsync<ToppingModel, dynamic>(_storedProcs[DataAccessTypes.GetAll], new { });
+            return _sqlDataAccess.LoadDataAsync<ToppingModel, dynamic>(_storedProcs[CommonDataAccessTypes.GetAll], new { });
         }
 
         public async Task<ToppingModel?> GetToppingAsync(int id)
         {
             var results = await _sqlDataAccess.LoadDataAsync<ToppingModel, dynamic>(
-                                        _storedProcs[DataAccessTypes.Get],
+                                        _storedProcs[CommonDataAccessTypes.Get],
                                         new { Id = id });
             return results.FirstOrDefault();
         }
@@ -37,21 +37,21 @@ namespace Core.Data.Repositories
         public Task InsertTopping(ToppingModel topping)
         {
             return _sqlDataAccess.SaveDataAsync(
-                                _storedProcs[DataAccessTypes.Add],
+                                _storedProcs[CommonDataAccessTypes.Add],
                                 new { topping.Name, topping.Price });
         }
 
         public Task UpdateTopping(ToppingModel topping)
         {
             return _sqlDataAccess.SaveDataAsync(
-                                _storedProcs[DataAccessTypes.Update],
+                                _storedProcs[CommonDataAccessTypes.Update],
                                 topping);
         }
 
         public Task DeleteTopping(int id)
         {
             return _sqlDataAccess.SaveDataAsync(
-                                _storedProcs[DataAccessTypes.Delete],
+                                _storedProcs[CommonDataAccessTypes.Delete],
                                 new { Id = id });
         }
     }

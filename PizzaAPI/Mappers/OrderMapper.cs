@@ -16,11 +16,25 @@ namespace PizzaAPI.Mappers
                             address);
         }
 
-        public static GetOrderWithPizzasEFQuery.Response ToDto(this OrderModel model)
+        public static GetOrderWithPizzasEFQuery.ResponseEF ToEFDto(this OrderModel model)
         {
             var pizzas = model.Pizzas!.Select(p => p.ToDto()).ToArray();
             var address = model.Address.ToDto();
-            return new GetOrderWithPizzasEFQuery.Response()
+            return new GetOrderWithPizzasEFQuery.ResponseEF()
+            {
+                PhoneNumber = model.PhoneNumber,
+                OrderDate = model.OrderDate,
+                Comment = model.Comment,
+                Address = address,
+                Pizzas = pizzas,
+            };
+        }
+
+        public static GetOrderWithPizzasQuery.Response ToDto(this OrderModel model)
+        {
+            var pizzas = model.Pizzas!.Select(p => p.ToDto()).ToArray();
+            var address = model.Address.ToDto();
+            return new GetOrderWithPizzasQuery.Response()
             {
                 PhoneNumber = model.PhoneNumber,
                 OrderDate = model.OrderDate,

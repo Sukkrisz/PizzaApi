@@ -1,6 +1,6 @@
 ﻿namespace Data.Db.DbAccess
 {
-    public enum DataAccessTypes
+    public enum CommonDataAccessTypes
     {
         Add,
         Get,

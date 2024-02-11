@@ -4,7 +4,7 @@ namespace Data.Db.Repositories
 {
     public abstract class BaseRepo
     {
-        protected Dictionary<DataAccessTypes, string> _storedProcs;
+        protected Dictionary<CommonDataAccessTypes, string> _storedProcs;
 
         protected readonly ISqlDataAccess _sqlDataAccess;
 

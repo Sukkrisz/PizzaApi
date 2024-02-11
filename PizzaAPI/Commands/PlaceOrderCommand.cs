@@ -8,12 +8,12 @@ namespace PizzaAPI.Commands
 {
     public static class PlaceOrderCommand
     {
-        public class Request :IRequest<Result>
+        public class Request :IRequest<MyResult>
         {
             public OrderCommandDto Order { get; set; }
         }
 
-        public class Handler : IRequestHandler<Request, Result>
+        public class Handler : IRequestHandler<Request, MyResult>
         {
             private readonly IOrderRepo _orderRepo;
 
@@ -22,12 +22,19 @@ namespace PizzaAPI.Commands
                 _orderRepo = orderRepo;
             }
 
-            public async Task<Result> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<MyResult> Handle(Request request, CancellationToken cancellationToken)
             {
-                var model = request.Order.ToModel();
-                await _orderRepo.Create(model, request.Order.PizzaIds);
+                try
+                {
+                    var model = request.Order.ToModel();
+                    await _orderRepo.Create(model, request.Order.PizzaIds);
 
-                return Result.Ok();
+                    return MyResult.Ok();
+                }
+                catch (Exception ex)
+                {
+                    return MyResult.Failed(ex.Message);
+                }
             }
         }
     }

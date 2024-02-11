@@ -2,18 +2,11 @@
 
 namespace Infrastructure.Mediator
 {
-    public class Result : Result<Unit>
-    {
-        public Result() : base(Unit.Value)
-        {
-        }
-    }
-
     public class Result<T>
     {
         public T Value { get; set; }
 
-        public List<string> Errors { get; set; }
+        public string Error { get; set; }
 
         public Result()
         { 
@@ -22,6 +15,11 @@ namespace Infrastructure.Mediator
         public Result(T value)
         {
             this.Value = value;
+        }
+
+        public Result(string error)
+        {
+            this.Error = error;
         }
 
         public static Result Ok()
@@ -34,14 +32,26 @@ namespace Infrastructure.Mediator
             return new Result<T>(result);
         }
 
-        public static Result<Unit> Fail(List<string> errors)
+        public static Result<Unit> Fail(string error)
         {
-            return new Result<Unit>() { Errors = errors };
+            return new Result<Unit>() { Error = error };
         }
 
         public bool IsSuccess
         {
-            get { return Errors is null; }
+            get { return Error is null; }
+        }
+    }
+
+    public sealed class Result : Result<Unit>
+    {
+        public Result() : base(Unit.Value)
+        {
+        }
+
+        public Result(string error)
+            : base(error)
+        {
         }
     }
 }

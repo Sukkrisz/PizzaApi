@@ -7,14 +7,14 @@ using PizzaAPI.Mappers;
 
 namespace PizzaAPI.Queries.Order
 {
-    public static class GetOrderWithPizzasEFQuery
+    public class GetOrderWithPizzasQuery
     {
-        public class Request : IRequest<WrapperResult<ResponseEF>>
+        public class Request : IRequest<WrapperResult<Response>>
         {
             public int OrderId { get; set; }
         }
 
-        public struct ResponseEF
+        public struct Response
         {
             public string PhoneNumber { get; set; }
 
@@ -32,7 +32,7 @@ namespace PizzaAPI.Queries.Order
             }
         }
 
-        public class Handler : IRequestHandler<Request, WrapperResult<ResponseEF>>
+        public class Handler : IRequestHandler<Request, WrapperResult<Response>>
         {
             private readonly IOrderRepo _orderRepo;
 
@@ -41,16 +41,23 @@ namespace PizzaAPI.Queries.Order
                 _orderRepo = orderRepo;
             }
 
-            public async Task<WrapperResult<ResponseEF>> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<WrapperResult<Response>> Handle(Request request, CancellationToken cancellationToken)
             {
-                var result = await _orderRepo.GetWithPizzasEF(request.OrderId);
-                if (result is not null)
+                try
                 {
-                    return WrapperResult<ResponseEF>.Ok(result.ToEFDto());
+                    var result = await _orderRepo.GetWithPizzas(request.OrderId);
+                    if (result is not null)
+                    {
+                        return WrapperResult<Response>.Ok(result.ToDto());
+                    }
+                    else
+                    {
+                        return WrapperResult<Response>.Failed("Order was not found.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return WrapperResult<ResponseEF>.Failed("Order was not found.");
+                    return WrapperResult<Response>.Failed(ex.Message);
                 }
 
             }

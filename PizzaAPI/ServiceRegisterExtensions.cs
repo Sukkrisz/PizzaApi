@@ -1,24 +1,15 @@
 ﻿using Core.Data.Repositories;
-using Data.Db.Network;
+using Infrastructure.Settings;
 using Data.Db.Repositories.Interfaces;
 
 namespace PizzaAPI
 {
     public static class ServiceRegisterExtensions
     {
-        public static void AddDevServices(this IServiceCollection services)
+        public static void AddDevServices(this IServiceCollection services, IConfigurationRoot config)
         {
-            // Configuration
-            IConfigurationRoot config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables()
-                .Build();
-
-            services.Configure<DbSettings>(config.GetSection("DbSettings"));
+            services.Configure<ConnectionStringSettings>(config.GetSection("ConnectionStrings"));
             services.AddOptions();
-
-            // MediatR
-            services.AddMediatRToAssemblies();
 
             // Data access services
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();

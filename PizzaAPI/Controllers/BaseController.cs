@@ -25,7 +25,7 @@ namespace PizzaAPI.Controllers
             }
         }
 
-        protected ActionResult FromResult(Result res)
+        protected ActionResult FromResult(WrapperResult<Unit> res)
         {
             if (res.IsSuccess)
             {
@@ -33,19 +33,21 @@ namespace PizzaAPI.Controllers
             }
             else
             {
-                return this.BadRequest(res.Errors);
+                return this.BadRequest(res.ErrorMessage);
             }
         }
 
-        protected ActionResult<T> FromResult<T>(Result<T> res)
+        protected ActionResult<T> FromWrapperResult<T>(WrapperResult<T> res, string cacheKey = null)
         {
             if (res.IsSuccess)
             {
+
+
                 return this.Ok(res.Value);
             }
             else
             {
-                return this.BadRequest(res.Errors);
+                return this.BadRequest(res.ErrorMessage);
             }
         }
     }

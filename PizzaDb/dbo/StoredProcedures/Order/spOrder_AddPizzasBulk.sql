@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[spOrder_AddPizzas]
+﻿CREATE PROCEDURE [dbo].[spOrder_AddPizzasBulk]
 	@pizzas OrderPizzaUDT READONLY
 AS
 BEGIN

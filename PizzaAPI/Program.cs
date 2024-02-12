@@ -1,3 +1,5 @@
+using Azure.Storage.Blobs;
+
 namespace PizzaAPI
 {
     public class Program
@@ -12,21 +14,35 @@ namespace PizzaAPI
                 .AddEnvironmentVariables()
                 .Build();
 
+            AddServices(builder.Services, config);
+
+            var app = builder.Build();
+
+            UseServices(app);
+
+            app.Run();
+        }
+
+        private static void AddServices(IServiceCollection services, IConfigurationRoot config)
+        {
             // Api related injections
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
 
             // Swagger
-            builder.Services.AddSwaggerGen(c => c.CustomSchemaIds(t => t.FullName.Replace("+", ".")));
+            services.AddSwaggerGen(c => c.CustomSchemaIds(t => t.FullName.Replace("+", ".")));
 
             // MediatR
-            builder.Services.AddMediatRToAssemblies();
+            services.AddMediatRToAssemblies();
+
+            // Blolb storage
+            services.AddSingleton(x => new BlobServiceClient(config.GetConnectionString("Blob")));
 
             // App related services
-            builder.Services.AddDevServices(config);
+            services.AddDevServices(config);
 
             // In memory cache
-            builder.Services.AddOutputCache(options =>
+            services.AddOutputCache(options =>
             {
                 // Set the cache expiry to 1 minutes
                 options.AddBasePolicy(x => x.Expire(TimeSpan.FromMinutes(1)));
@@ -37,14 +53,15 @@ namespace PizzaAPI
 
 
             // Redis cache
-            builder.Services.AddStackExchangeRedisCache(options =>
+            services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = config.GetConnectionString("Redis");
                 options.InstanceName = "PizzaApi_";
             });
+        }
 
-            var app = builder.Build();
-
+        private static void UseServices(WebApplication app)
+        {
             app.UseOutputCache();
 
             // Configure the HTTP request pipeline.
@@ -59,8 +76,6 @@ namespace PizzaAPI
             app.UseAuthorization();
 
             app.MapControllers();
-
-            app.Run();
         }
     }
 }

@@ -125,7 +125,7 @@ namespace Data.Db.DbAccess
             };
         }
 
-        public PropertyInfo GetProperty<T>(Type type, string propertyToGet)
+        private PropertyInfo GetProperty<T>(Type type, string propertyToGet)
         {
             var foundProp = type.GetProperty(propertyToGet);
             if(foundProp is null)

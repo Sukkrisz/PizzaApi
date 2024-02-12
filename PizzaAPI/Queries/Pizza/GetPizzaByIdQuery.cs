@@ -2,6 +2,8 @@
 using Data.Db.Repositories.Interfaces;
 using Infrastructure.Mediator;
 using MediatR;
+using PizzaAPI.Dtos.Pizza;
+using PizzaAPI.Mappers;
 
 namespace PizzaAPI.Queries.Pizza
 {
@@ -14,7 +16,7 @@ namespace PizzaAPI.Queries.Pizza
 
         public struct Response
         {
-            public PizzaModel Pizza { get; set; }
+            public PizzaDto Pizza { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, WrapperResult<Response>>
@@ -33,7 +35,7 @@ namespace PizzaAPI.Queries.Pizza
                 {
                     return WrapperResult<Response>.Ok(new Response()
                     {
-                        Pizza = res
+                        Pizza = res.ToDto()
                     });
                 }
                 else

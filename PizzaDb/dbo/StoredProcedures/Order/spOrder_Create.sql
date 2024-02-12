@@ -8,7 +8,7 @@
 AS
 BEGIN
 	-- Set aside the inserted Id's so that they can be attached to the order object.
-	CREATE TABLE #inserted_ids (Id int identity, InsertedId int)
+	CREATE TABLE #inserted_ids (Id int identity, InsertedId int);
 
 	INSERT INTO [dbo].[Address]
 	OUTPUT INSERTED.[Id] INTO #inserted_ids

@@ -1,6 +1,7 @@
 ﻿using Core.Data.Repositories;
 using Infrastructure.Settings;
 using Data.Db.Repositories.Interfaces;
+using Infrastructure.Blob;
 
 namespace PizzaAPI
 {
@@ -13,6 +14,7 @@ namespace PizzaAPI
 
             // Data access services
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
+            services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IToppingRepo, ToppingRepo>();
             services.AddSingleton<IPizzaRepo, PizzaRepo>();
             services.AddSingleton<IOrderRepo, OrderRepo>();

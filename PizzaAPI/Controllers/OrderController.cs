@@ -70,7 +70,7 @@ namespace PizzaAPI.Controllers
                 var command = new PlaceOrderCommand.Request() { Order = order };
                 var res = await this.Mediator.Send(command);
 
-                return this.FromResult(res);
+                return this.FromWrapperResult(res);
             }
             catch (Exception ex)
             {

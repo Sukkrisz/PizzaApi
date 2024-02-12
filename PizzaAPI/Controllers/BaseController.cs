@@ -25,7 +25,7 @@ namespace PizzaAPI.Controllers
             }
         }
 
-        protected ActionResult FromResult(WrapperResult<Unit> res)
+        protected ActionResult FromWrapperResult(WrapperResult<Unit> res)
         {
             if (res.IsSuccess)
             {
@@ -37,12 +37,10 @@ namespace PizzaAPI.Controllers
             }
         }
 
-        protected ActionResult<T> FromWrapperResult<T>(WrapperResult<T> res, string cacheKey = null)
+        protected ActionResult<T> FromWrapperResult<T>(WrapperResult<T> res)
         {
             if (res.IsSuccess)
             {
-
-
                 return this.Ok(res.Value);
             }
             else

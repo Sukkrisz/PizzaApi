@@ -33,29 +33,6 @@ namespace Core.Data.Repositories
             };
         }
 
-        public async Task Create(OrderModel order, int[] pizzaIds)
-        {
-            var orderInputs = new
-            {
-                order.PhoneNumber,
-                order.OrderDate,
-                order.Comment,
-                order.Address.City,
-                order.Address.Line1,
-                order.Address.Line2
-            };
-
-            var orderId = await _sqlDataAccess.SaveWithOutput(_storedProcs[CommonDataAccessTypes.Add], orderInputs);
-
-            var orderPizzaConverted = ConvertToInputPizzas(orderId, pizzaIds);
-            var pizzaInputs = new
-            {
-                pizzas = orderPizzaConverted.AsTableValuedParameter(ORDER_PIZZA_UDT_NAME)
-            };
-
-            await _sqlDataAccess.SaveDataAsync(ADD_PIZZAS_SP_NAME, pizzaInputs);
-        }
-
         public async Task<OrderModel> GetWithPizzas(int orderId)
         {
             using (IDbConnection conn = new SqlConnection(_settings.Value.PizzaDb))
@@ -67,7 +44,7 @@ namespace Core.Data.Repositories
                 if (order is not null)
                 {
                     var pizzas = await _sqlDataAccess.LoadDataMultiObjectAsync<PizzaModel, ToppingModel, dynamic>(
-                                                                            _storedProcs[CommonDataAccessTypes.GetAll],
+                                                                            GET_PIZZAS_SP_NAME,
                                                                             new { OrderId = order.Id },
                                                                             nameof(PizzaModel.Toppings),
                                                                             conn);
@@ -127,6 +104,29 @@ namespace Core.Data.Repositories
                 orders.TryGetValue(orderId, out var res);
                 return res;
             }
+        }
+
+        public async Task Create(OrderModel order, int[] pizzaIds)
+        {
+            var orderInputs = new
+            {
+                order.PhoneNumber,
+                order.OrderDate,
+                order.Comment,
+                order.Address.City,
+                order.Address.Line1,
+                order.Address.Line2
+            };
+
+            var orderId = await _sqlDataAccess.SaveWithOutput(_storedProcs[CommonDataAccessTypes.Add], orderInputs);
+
+            var orderPizzaConverted = ConvertToInputPizzas(orderId, pizzaIds);
+            var pizzaInputs = new
+            {
+                pizzas = orderPizzaConverted.AsTableValuedParameter(ORDER_PIZZA_UDT_NAME)
+            };
+
+            await _sqlDataAccess.SaveDataAsync(ADD_PIZZAS_SP_NAME, pizzaInputs);
         }
 
         private DataTable ConvertToInputPizzas(int orderId, int[] pizzaIds)

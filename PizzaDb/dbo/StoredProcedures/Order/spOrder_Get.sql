@@ -6,6 +6,7 @@ BEGIN
 	FROM [dbo].[Order] o
 		LEFT JOIN [dbo].[OrderComment] c on c.Id = o.CommentId
 		LEFT JOIN [dbo].[Address] a on a.Id = o.AddressId
-	WHERE o.Id = @OrderId
-	RETURN 0
+	WHERE o.Id = @OrderId;
+
+	RETURN 1;
 END

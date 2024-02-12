@@ -4,10 +4,11 @@ namespace Data.Db.Repositories.Interfaces
 {
     public interface IToppingRepo
     {
-        Task DeleteTopping(int id);
-        Task<IEnumerable<ToppingModel>> GetAllToppings();
-        Task<ToppingModel?> GetToppingAsync(int id);
-        Task InsertTopping(ToppingModel topping);
-        Task UpdateTopping(ToppingModel topping);
+        Task DeleteAsync(int id);
+        Task<IEnumerable<ToppingModel>> GetAllAsync();
+        Task<ToppingModel?> GetByIdAsync(int id);
+        Task InsertAsync(ToppingModel topping);
+        Task<bool> BulkInsertAsync(List<ToppingModel> toppingsToInsert);
+        Task UpdateAsync(ToppingModel topping);
     }
 }

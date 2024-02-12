@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PizzaAPI.Commands;
 using PizzaAPI.Dtos.Pizza;
 using PizzaAPI.Queries;
 
@@ -38,6 +39,15 @@ namespace PizzaAPI.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost("BulkImportCloud")]
+        public async Task<ActionResult<InsertToppingsFromCloudCommand.Response>> BulkImportFromCloudFile()
+        {
+            var request = new InsertToppingsFromCloudCommand.Request();
+            var res = await this.Mediator.Send(request);
+
+            return this.FromWrapperResult(res);
         }
 
         // POST: ToppingController/Edit/5

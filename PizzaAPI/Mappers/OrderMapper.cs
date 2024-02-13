@@ -6,14 +6,16 @@ namespace PizzaAPI.Mappers
 {
     public static class OrderMapper
     {
-        public static OrderModel ToModel(this OrderCommandDto dto)
+        public static OrderModel ToModel(this OrderDto dto)
         {
             var address = dto.Address.ToModel();
-            return new OrderModel(
-                            dto.PhoneNumber,
-                            dto.OrderDate,
-                            dto.Comment,
-                            address);
+            return new OrderModel
+            {
+                PhoneNumber = dto.PhoneNumber,
+                OrderDate = dto.OrderDate,
+                Comment = dto.Comment,
+                Address = address
+            };
         }
 
         public static GetOrderWithPizzasEFQuery.ResponseEF ToEFDto(this OrderModel model)

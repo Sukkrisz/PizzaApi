@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Redis;
+using Infrastructure.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
@@ -62,13 +63,12 @@ namespace PizzaAPI.Controllers
 
         }
 
-        [HttpPost()]
-        public async Task<IActionResult> PlaceOrder([FromBody] OrderCommandDto order)
+        [HttpPost("PlaceOrder")]
+        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand.Request order)
         {
             try
             {
-                var command = new PlaceOrderCommand.Request() { Order = order };
-                var res = await this.Mediator.Send(command);
+                var res = await this.Mediator.Send(order);
 
                 return this.FromWrapperResult(res);
             }
@@ -76,6 +76,17 @@ namespace PizzaAPI.Controllers
             {
                 return Problem(ex.Message);
             }
+        }
+
+        [HttpPost("SendToKitchen")]
+        public async Task<IActionResult> SendToKitchen([FromBody] OrderDto order, IBusMessagePublisher publisher)
+        {
+            var locations = new string[2] { "Bp", "Pecs" };
+            var r = new Random();
+            var locToSend = locations[r.Next(0,2)];
+            await publisher.SendObjectToTopic(order, "orders", new List<ServiceBusFilter>() { new ServiceBusFilter("location", locToSend) });
+
+            return Ok();
         }
     }
 }

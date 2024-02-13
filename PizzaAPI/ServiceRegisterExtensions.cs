@@ -2,6 +2,8 @@
 using Infrastructure.Settings;
 using Data.Db.Repositories.Interfaces;
 using Infrastructure.Blob;
+using Azure.Messaging.ServiceBus;
+using Infrastructure.ServiceBus;
 
 namespace PizzaAPI
 {
@@ -10,6 +12,7 @@ namespace PizzaAPI
         public static void AddDevServices(this IServiceCollection services, IConfigurationRoot config)
         {
             services.Configure<ConnectionStringSettings>(config.GetSection("ConnectionStrings"));
+            services.Configure<AzServiceBusSettings>(config.GetSection("AzServiceBus"));
             services.AddOptions();
 
             // Data access services
@@ -18,6 +21,7 @@ namespace PizzaAPI
             services.AddSingleton<IToppingRepo, ToppingRepo>();
             services.AddSingleton<IPizzaRepo, PizzaRepo>();
             services.AddSingleton<IOrderRepo, OrderRepo>();
+            services.AddSingleton<IBusMessagePublisher, BusMessagePublisher>();
         }
 
         public static IServiceCollection AddMediatRToAssemblies(this IServiceCollection services)
@@ -33,6 +37,17 @@ namespace PizzaAPI
             }
 
             return services;
+        }
+
+        public static void AddServiceBus(this IServiceCollection services, IConfigurationRoot config)
+        {
+            var connString = config.GetConnectionString("AZServiceBus");
+            var options = new ServiceBusClientOptions()
+            {
+                TransportType = ServiceBusTransportType.AmqpTcp
+            };
+
+            services.AddSingleton(x => new ServiceBusClient(connString, options));
         }
     }
 }

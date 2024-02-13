@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Core\Data.csproj", 
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PizzaDb", "PizzaDb\PizzaDb.sqlproj", "{6DB416AC-47B6-4B4D-820E-91E21538CEAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{92A8FBC7-501D-4A0E-94FF-59D561118069}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{92A8FBC7-501D-4A0E-94FF-59D561118069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzFunctions", "AzFunctions\AzFunctions.csproj", "{038828EF-3A62-4F42-B417-E14B09153BCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{92A8FBC7-501D-4A0E-94FF-59D561118069}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A8FBC7-501D-4A0E-94FF-59D561118069}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92A8FBC7-501D-4A0E-94FF-59D561118069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{038828EF-3A62-4F42-B417-E14B09153BCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{038828EF-3A62-4F42-B417-E14B09153BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{038828EF-3A62-4F42-B417-E14B09153BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{038828EF-3A62-4F42-B417-E14B09153BCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

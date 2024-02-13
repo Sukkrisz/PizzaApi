@@ -1,3 +1,4 @@
+using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
 
 namespace PizzaAPI
@@ -37,6 +38,9 @@ namespace PizzaAPI
 
             // Blolb storage
             services.AddSingleton(x => new BlobServiceClient(config.GetConnectionString("Blob")));
+
+            // Azure service bus
+            services.AddServiceBus(config);
 
             // App related services
             services.AddDevServices(config);

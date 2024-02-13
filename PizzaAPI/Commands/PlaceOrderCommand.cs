@@ -10,7 +10,7 @@ namespace PizzaAPI.Commands
     {
         public class Request :IRequest<MyResult>
         {
-            public OrderCommandDto Order { get; set; }
+            public OrderDto Order { get; set; }
         }
 
         public class Handler : IRequestHandler<Request, MyResult>

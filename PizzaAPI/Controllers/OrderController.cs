@@ -83,7 +83,8 @@ namespace PizzaAPI.Controllers
         {
             var locations = new string[2] { "Bp", "Pecs" };
             var r = new Random();
-            var locToSend = locations[r.Next(0,2)];
+            //var locToSend = locations[r.Next(0,2)];
+            string locToSend = order.Address.City == "Bp" ? "Bp" : order.Address.City == "Pecs" ? "Pecs" : "test";
             await publisher.SendObjectToTopic(order, "orders", new List<ServiceBusFilter>() { new ServiceBusFilter("location", locToSend) });
 
             return Ok();

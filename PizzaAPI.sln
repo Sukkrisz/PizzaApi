@@ -11,7 +11,9 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PizzaDb", "PizzaDb\PizzaDb.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{92A8FBC7-501D-4A0E-94FF-59D561118069}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzFunctions", "AzFunctions\AzFunctions.csproj", "{038828EF-3A62-4F42-B417-E14B09153BCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzFunctions", "AzFunctions\AzFunctions.csproj", "{038828EF-3A62-4F42-B417-E14B09153BCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{3E9E161A-8940-42A1-AF1A-4F064172FC20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{038828EF-3A62-4F42-B417-E14B09153BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{038828EF-3A62-4F42-B417-E14B09153BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{038828EF-3A62-4F42-B417-E14B09153BCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Kitchen]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [OvensCount] SMALLINT NOT NULL DEFAULT 0, 
+    [OvensInUse] SMALLINT NOT NULL DEFAULT 0
+)

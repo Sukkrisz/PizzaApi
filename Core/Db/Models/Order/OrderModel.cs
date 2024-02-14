@@ -1,4 +1,5 @@
 ﻿using Data.Db.Models.Pizza;
+using Models.Shared;
 
 namespace Data.Db.Models.Order
 {
@@ -16,7 +17,7 @@ namespace Data.Db.Models.Order
 
         public List<PizzaModel>? Pizzas { get; set; }
 
-        public int PriceSum { get; set; }
+        public OrderStatus Status { get; set; }
 
         public OrderModel()
         {

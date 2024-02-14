@@ -106,6 +106,11 @@ namespace Core.Data.Repositories
             }
         }
 
+        public async Task<IEnumerable<int>> GetOrdersToPhoneNumber(string phoneNumber)
+        {
+            return await _sqlDataAccess.LoadDataAsync<int, dynamic>("spOrder_GetIdsToPhoneNumber", new { PhoneNumber =  phoneNumber });
+        }
+
         public async Task Create(OrderModel order, int[] pizzaIds)
         {
             var orderInputs = new

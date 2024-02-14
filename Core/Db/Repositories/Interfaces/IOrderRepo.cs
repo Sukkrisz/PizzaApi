@@ -9,5 +9,7 @@ namespace Data.Db.Repositories.Interfaces
         Task<OrderModel> GetWithPizzasEF(int orderId);
 
         Task<OrderModel> GetWithPizzas(int orderId);
+
+        Task<IEnumerable<int>> GetOrdersToPhoneNumber(string phoneNumber);
     }
 }

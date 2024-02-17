@@ -17,6 +17,8 @@ namespace PizzaAPI
 
             AddServices(builder.Services, config);
 
+            builder.Logging.AddConsole();
+
             var app = builder.Build();
 
             UseServices(app);

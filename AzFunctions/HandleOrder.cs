@@ -39,7 +39,7 @@ namespace AzFunctions
             return $"Hello {name}!";
         }
 
-        [Function("HandleOrder_ServiceBusStart")]
+        /*[Function("HandleOrder_ServiceBusStart")]
         public static async Task<int> HttpStart(
             [ServiceBusTrigger(
                 topicName: "%OrdersTopic%",
@@ -80,6 +80,6 @@ namespace AzFunctions
             // Returns an HTTP 202 response with an instance management payload.
             // See https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-http-api#start-orchestration
             //return client.CreateCheckStatusResponse(req, instanceId);
-        }
+        }*/
     }
 }

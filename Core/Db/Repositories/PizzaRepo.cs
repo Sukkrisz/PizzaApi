@@ -45,16 +45,5 @@ namespace Core.Data.Repositories
                                                                             nameof(PizzaModel.Toppings));
             return queryRes?.FirstOrDefault();
         }
-
-        /*public async Task GenerateDemoPizzas(int numberOfPizzasToCreate)
-        {
-            var spName = "spCreate_DemoPizzas";
-            var p = new DynamicParameters();
-            p.Add("@lastCreatedId", 0, DbType.Int32, direction: ParameterDirection.Output);
-            p.Add("@@ammountOfPizzasToCreate", numberOfPizzasToCreate);
-            p.Add("@output", DbType.Int32, direction: ParameterDirection.ReturnValue);
-
-            await this.ExecuteSpAsync(spName, p);
-        }*/
     }
 }

@@ -5,9 +5,9 @@ BEGIN
 
 	CREATE TABLE #inserted_ids (InsertedId int);
 
-	INSERT INTO [dbo].[Topping] ([Name], Price)
+	INSERT INTO [dbo].[Topping] ([Name], PrepareTime)
 	OUTPUT INSERTED.[Id] INTO #inserted_ids
-	SELECT [Name], Price
+	SELECT [Name], PrepareTime
 	FROM @toppings;
 
 	-- Return the number of items inserted

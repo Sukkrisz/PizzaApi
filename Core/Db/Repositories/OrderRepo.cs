@@ -1,36 +1,29 @@
 ﻿using Dapper;
 using Data.Db.DbAccess;
+using Data.Db.Helpers;
 using Data.Db.Models.Order;
 using Data.Db.Models.Pizza;
 using Data.Db.Repositories;
 using Data.Db.Repositories.Interfaces;
 using Infrastructure.Settings;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Models.Db;
+using Models.Shared.Func;
 using System.Data;
 
 namespace Core.Data.Repositories
 {
     public class OrderRepo : BaseRepo, IOrderRepo
     {
-        private const string ORDER_CONNECTOR_ID = "OrderId";
-        private const string PIZZA_CONNECTOR_ID = "PizzaId";
-        private const string ORDER_PIZZA_UDT_NAME = "OrderPizzaUDT";
-
-        private const string ADD_PIZZAS_SP_NAME = "spOrder_AddPizzas";
-        private const string GET_PIZZAS_SP_NAME = "spPizza_GetAllToOrder";
-
         private readonly IOptions<ConnectionStringSettings> _settings;
+        private readonly ILogger _logger;
 
-        public OrderRepo(IOptions<ConnectionStringSettings> settings, ISqlDataAccess sqlDataAccess) : base(sqlDataAccess)
+        public OrderRepo(IOptions<ConnectionStringSettings> settings, ISqlDataAccess sqlDataAccess, ILogger<OrderRepo> logger) : base(sqlDataAccess)
         {
             _settings = settings;
-            _storedProcs = new Dictionary<CommonDataAccessTypes, string>()
-            {
-                { CommonDataAccessTypes.Add, "spOrder_Create" },
-                { CommonDataAccessTypes.Get, "spOrder_Get" },
-                { CommonDataAccessTypes.GetAll, "spOrder_GetWithPizzasEF" }
-            };
+            _logger = logger;
         }
 
         public async Task<OrderModel> GetWithPizzas(int orderId)
@@ -38,13 +31,13 @@ namespace Core.Data.Repositories
             using (IDbConnection conn = new SqlConnection(_settings.Value.PizzaDb))
             {
                 var order = await conn.QuerySingleAsync<OrderModel>(
-                                                _storedProcs[CommonDataAccessTypes.Get],
+                                                OrderRepoConstants.Sp_GetOrder,
                                                 new { OrderId = orderId },
                                                 commandType: CommandType.StoredProcedure);
                 if (order is not null)
                 {
                     var pizzas = await _sqlDataAccess.LoadDataMultiObjectAsync<PizzaModel, ToppingModel, dynamic>(
-                                                                            GET_PIZZAS_SP_NAME,
+                                                                            OrderRepoConstants.Sp_GetPizzasToOrder,
                                                                             new { OrderId = order.Id },
                                                                             nameof(PizzaModel.Toppings),
                                                                             conn);
@@ -63,7 +56,7 @@ namespace Core.Data.Repositories
             using (IDbConnection conn = new SqlConnection(_settings.Value.PizzaDb))
             {
                 _ = await conn.QueryAsync<OrderModel, AddressModel, PizzaModel, ToppingModel, OrderModel>(
-                    sql: "spOrder_GetWithPizzasEF",
+                    sql: OrderRepoConstants.Sp_GetWithPizzasEf,
                     param: new { OrderId = orderId },
                     map: (order, address, pizza, topping) =>
                     {
@@ -108,10 +101,22 @@ namespace Core.Data.Repositories
 
         public async Task<IEnumerable<int>> GetOrdersToPhoneNumber(string phoneNumber)
         {
-            return await _sqlDataAccess.LoadDataAsync<int, dynamic>("spOrder_GetIdsToPhoneNumber", new { PhoneNumber =  phoneNumber });
+            return await _sqlDataAccess.LoadDataAsync<int, dynamic>("spOrder_GetIdsToPhoneNumber", new { PhoneNumber = phoneNumber });
         }
 
-        public async Task Create(OrderModel order, int[] pizzaIds)
+        public async Task<IEnumerable<PizzaWithMakeTime>> GetMakeTimes(string phoneNumber, DateTime orderDate)
+        {
+            var date = DateTimeRounder.RoundToNearestMinute(orderDate);
+            _logger.LogWarning("Repo:" + date.ToString());
+            var res = await _sqlDataAccess.LoadDataAsync<PizzaWithMakeTime, dynamic>(
+                                                OrderRepoConstants.Sp_GetPizzasToOrderWithTime,
+                                                new { PhoneNumber = phoneNumber, OrderDate = DateTimeRounder.RoundToNearestMinute(orderDate) });
+
+            _logger.LogWarning("Repo count:" + res.Count());
+            return res;
+        }
+
+        public async Task Create(OrderModel order, OrderedPizzaModel[] pizzas)
         {
             var orderInputs = new
             {
@@ -123,28 +128,29 @@ namespace Core.Data.Repositories
                 order.Address.Line2
             };
 
-            var orderId = await _sqlDataAccess.SaveWithOutput(_storedProcs[CommonDataAccessTypes.Add], orderInputs);
+            var orderId = await _sqlDataAccess.SaveWithOutput(OrderRepoConstants.Sp_CreateOrder, orderInputs);
 
-            var orderPizzaConverted = ConvertToInputPizzas(orderId, pizzaIds);
+            var orderPizzaConverted = ConvertToInputPizzas(orderId, pizzas);
             var pizzaInputs = new
             {
-                pizzas = orderPizzaConverted.AsTableValuedParameter(ORDER_PIZZA_UDT_NAME)
+                pizzas = orderPizzaConverted.AsTableValuedParameter(OrderRepoConstants.OrderPizzaUdtName)
             };
 
-            await _sqlDataAccess.SaveDataAsync(ADD_PIZZAS_SP_NAME, pizzaInputs);
+            await _sqlDataAccess.SaveDataAsync(OrderRepoConstants.Sp_AttachPizzasToOrder, pizzaInputs);
         }
 
-        private DataTable ConvertToInputPizzas(int orderId, int[] pizzaIds)
+        private DataTable ConvertToInputPizzas(int orderId, OrderedPizzaModel[] pizzas)
         {
             var res = new DataTable();
 
-            res.Columns.Add(ORDER_CONNECTOR_ID, typeof(int));
-            res.Columns.Add(PIZZA_CONNECTOR_ID, typeof(int));
+            res.Columns.Add(OrderRepoConstants.OrderConnectorId, typeof(int));
+            res.Columns.Add(OrderRepoConstants.PizzaConnectorId, typeof(int));
+            res.Columns.Add(OrderRepoConstants.PizzaSizeColumnName, typeof(int));
 
             // Luckily foreach is nowdays as fast, or maybe even faster, as for is ;)
-            foreach (var pizzaId in pizzaIds)
+            foreach (var pizza in pizzas)
             {
-                res.Rows.Add(orderId, pizzaId);
+                res.Rows.Add(orderId, pizza.Id, pizza.Size);
             }
 
             return res;

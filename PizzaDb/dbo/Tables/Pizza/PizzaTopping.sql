@@ -3,6 +3,6 @@
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [PizzaId] INT NOT NULL, 
     [ToppingId] INT NOT NULL, 
-    CONSTRAINT [FK_PizzaId] FOREIGN KEY ([PizzaId]) REFERENCES [dbo].[Pizza]([Id]),
-    CONSTRAINT [FK_ToppingId] FOREIGN KEY ([ToppingId]) REFERENCES [dbo].[Topping]([Id])
+    CONSTRAINT [FK_PizzaId] FOREIGN KEY ([PizzaId]) REFERENCES [dbo].[Pizza]([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ToppingId] FOREIGN KEY ([ToppingId]) REFERENCES [dbo].[Topping]([Id]) ON DELETE CASCADE
 )

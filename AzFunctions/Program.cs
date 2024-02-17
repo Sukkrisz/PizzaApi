@@ -29,6 +29,7 @@ public class Program
             services.Configure<ConnectionStringSettings>(config.GetSection("Db"));
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             services.AddSingleton<IOrderRepo, OrderRepo>();
+            services.AddSingleton<IPizzaRepo, PizzaRepo>();
             services.AddOptions();
         });
 

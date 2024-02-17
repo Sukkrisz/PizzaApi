@@ -3,6 +3,7 @@ using Infrastructure.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Models.Shared;
 using PizzaAPI.Commands;
 using PizzaAPI.Dtos.Order;
 using PizzaAPI.Queries.Order;
@@ -64,11 +65,12 @@ namespace PizzaAPI.Controllers
         }
 
         [HttpPost("PlaceOrder")]
-        public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderCommand.Request order)
+        public async Task<IActionResult> PlaceOrder([FromBody] OrderDto order)
         {
             try
             {
-                var res = await this.Mediator.Send(order);
+                var req = new PlaceOrderCommand.Request() { Order = order };
+                var res = await this.Mediator.Send(req);
 
                 return this.FromWrapperResult(res);
             }
@@ -81,10 +83,7 @@ namespace PizzaAPI.Controllers
         [HttpPost("SendToKitchen")]
         public async Task<IActionResult> SendToKitchen([FromBody] OrderDto order, IBusMessagePublisher publisher)
         {
-            var locations = new string[2] { "Bp", "Pecs" };
-            var r = new Random();
-            //var locToSend = locations[r.Next(0,2)];
-            string locToSend = order.Address.City == "Bp" ? "Bp" : order.Address.City == "Pecs" ? "Pecs" : "test";
+            string locToSend = order.Address.City == Cities.Budapest ? Cities.Budapest.ToInternalString() : order.Address.City == Cities.Pécs ? Cities.Pécs.ToInternalString() : "test";
             await publisher.SendObjectToTopic(order, "orders", new List<ServiceBusFilter>() { new ServiceBusFilter("location", locToSend) });
 
             return Ok();

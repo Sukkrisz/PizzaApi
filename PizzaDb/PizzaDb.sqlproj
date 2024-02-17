@@ -65,10 +65,9 @@
     <Folder Include="dbo\Tables\Pizza" />
     <Folder Include="dbo\Tables\Order" />
     <Folder Include="dbo\Types" />
-    <Folder Include="dbo\Tables\Kitchen" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\StoredProcedures\spCreateDemoPizzas.sql" />
+    <Build Include="dbo\StoredProcedures\spInit_DemoPizzas.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Insert.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Update.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_Delete.sql" />
@@ -95,8 +94,11 @@
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetById.sql" />
     <Build Include="dbo\StoredProcedures\Topping\spTopping_BulkInsert.sql" />
     <Build Include="dbo\StoredProcedures\Order\spOrder_AddPizzasBulk.sql" />
-    <Build Include="dbo\Tables\Kitchen\Kitchen.sql" />
     <Build Include="dbo\StoredProcedures\Order\spOrder_GetIdsToPhoneNumber.sql" />
+    <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetByMultiIds.sql" />
+    <Build Include="dbo\Tables\Pizza\PizzaSizePreparationTimes.sql" />
+    <Build Include="dbo\StoredProcedures\spInit_SizeMultipliers.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_GetMakeTimesByPhoneNumber" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PizzaDb.publish.xml" />

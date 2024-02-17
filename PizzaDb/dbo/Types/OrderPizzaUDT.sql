@@ -1,5 +1,6 @@
 ﻿CREATE TYPE [dbo].[OrderPizzaUDT] AS TABLE
 (
 	OrderId int,
-	PizzaId int
+	PizzaId int,
+	Size tinyint
 );

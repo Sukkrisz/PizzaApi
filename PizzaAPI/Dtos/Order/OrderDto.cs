@@ -10,6 +10,6 @@
 
         public AddressDto Address { get; set; }
 
-        public int[] PizzaIds { get; set; }
+        public OrderedPizzaDto[] Pizzas { get; set; }
     }
 }

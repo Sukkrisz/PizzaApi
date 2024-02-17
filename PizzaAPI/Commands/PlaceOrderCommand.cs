@@ -27,7 +27,8 @@ namespace PizzaAPI.Commands
                 try
                 {
                     var model = request.Order.ToModel();
-                    await _orderRepo.Create(model, request.Order.PizzaIds);
+                    var pizzas = request.Order.Pizzas.Select(p => p.ToModel()).ToArray();
+                    await _orderRepo.Create(model, pizzas);
 
                     return MyResult.Ok();
                 }

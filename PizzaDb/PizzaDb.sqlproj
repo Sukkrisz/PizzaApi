@@ -98,7 +98,8 @@
     <Build Include="dbo\StoredProcedures\Pizza\spPizza_GetByMultiIds.sql" />
     <Build Include="dbo\Tables\Pizza\PizzaSizePreparationTimes.sql" />
     <Build Include="dbo\StoredProcedures\spInit_SizeMultipliers.sql" />
-    <Build Include="dbo\StoredProcedures\Order\spOrder_GetMakeTimesByPhoneNumber" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_GetMakeTimesByPhoneNumber.sql" />
+    <Build Include="dbo\StoredProcedures\Order\spOrder_Complete.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PizzaDb.publish.xml" />

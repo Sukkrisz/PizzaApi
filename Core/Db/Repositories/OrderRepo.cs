@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Models.Db;
 using Models.Shared.Func;
+using Shared.Dto;
 using System.Data;
 
 namespace Core.Data.Repositories
@@ -110,7 +111,11 @@ namespace Core.Data.Repositories
             _logger.LogWarning("Repo:" + date.ToString());
             var res = await _sqlDataAccess.LoadDataAsync<PizzaWithMakeTime, dynamic>(
                                                 OrderRepoConstants.Sp_GetPizzasToOrderWithTime,
-                                                new { PhoneNumber = phoneNumber, OrderDate = DateTimeRounder.RoundToNearestMinute(orderDate) });
+                                                new
+                                                {
+                                                    PhoneNumber = phoneNumber,
+                                                    OrderDate = DateTimeRounder.RoundToNearestMinute(orderDate)
+                                                });
 
             _logger.LogWarning("Repo count:" + res.Count());
             return res;
@@ -121,7 +126,7 @@ namespace Core.Data.Repositories
             var orderInputs = new
             {
                 order.PhoneNumber,
-                order.OrderDate,
+                OrderDate = DateTimeRounder.RoundToNearestMinute(order.OrderDate),
                 order.Comment,
                 order.Address.City,
                 order.Address.Line1,
@@ -137,6 +142,17 @@ namespace Core.Data.Repositories
             };
 
             await _sqlDataAccess.SaveDataAsync(OrderRepoConstants.Sp_AttachPizzasToOrder, pizzaInputs);
+        }
+
+        public async Task CompleteOrder(string phoneNumber, DateTime orderDate)
+        {
+            await _sqlDataAccess.SaveDataAsync<dynamic>(
+                                        OrderRepoConstants.Sp_CompleteOrder,
+                                        new
+                                        {
+                                            PhoneNumber = phoneNumber,
+                                            OrderDate = DateTimeRounder.RoundToNearestMinute(orderDate)
+                                        });
         }
 
         private DataTable ConvertToInputPizzas(int orderId, OrderedPizzaModel[] pizzas)

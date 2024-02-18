@@ -38,10 +38,10 @@ namespace AzFunctions
                 ServiceBusReceivedMessage message,
                 [DurableClient] DurableTaskClient client)
         {
-            _logger.LogInformation("An order for the Bp restaurant!");
+            _logger.LogInformation("An order for the restaurant at Pécs!");
 
             var msgBody = JsonSerializer.Deserialize<OrderDto>(message.Body);
-            var order = new Order(msgBody.PhoneNumber, msgBody.OrderDate, msgBody.Address.City);
+            var order = new Order(msgBody.PhoneNumber, msgBody.OrderDate, Cities.Pécs);
 
             // InstanceId can be stored in the db for example connecting it with the order, and the whole running task can be shut down.
             // This would of course be usefull in case of cancellations or emergency shutdowns.
@@ -59,16 +59,16 @@ namespace AzFunctions
                 var restaurantEntityId = new EntityInstanceId(nameof(Restaurant), Restaurant.SERVICEKEY + inputMsg.City.ToInternalString());
                 
                 var workersCount = await context.Entities.CallEntityAsync<uint>(restaurantEntityId, nameof(Restaurant.GetWorkersCount));
-                //if (workersCount == 0)
+                if (workersCount == 0)
                 {
                     await context.Entities.SignalEntityAsync(restaurantEntityId, nameof(Restaurant.InitRestaurant), inputMsg.City);
                 }
 
-                var isRestauranOpen = await context.Entities.CallEntityAsync<bool>(
+                var isRestaurantOpen = await context.Entities.CallEntityAsync<bool>(
                                                                     restaurantEntityId,
                                                                     nameof(Restaurant.IsRestaurantOpen),
                                                                     inputMsg.OrderDate);
-                if (isRestauranOpen)
+                if (isRestaurantOpen)
                 {
                     //GetMakeTimes
                     var pizzasWithBakeTime = await context.CallActivityAsync<IEnumerable<PizzaWithMakeTime>>(nameof(GetMakeTimesAsync), inputMsg);
@@ -91,37 +91,17 @@ namespace AzFunctions
 
                     tiredness = await context.Entities.CallEntityAsync<double>(tirednessEntityId, nameof(TirednessMonitor.GetTeamTiredness));
                     logger.LogWarning("Tiredness after: " + tiredness);
+
+                    try
+                    {
+                        await context.CallActivityAsync<Task>(nameof(PersistOrderCompletionAsync), inputMsg);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex.Message);
+                    }
+                    
                 }
-
-                /*
-                var tirednessEntityId = new EntityInstanceId(nameof(TirednessMonitor), TirednessMonitor.SERVICEKEY+"Pecs");
-                await context.Entities.SignalEntityAsync(tirednessEntityId, nameof(TirednessMonitor.Raise), 3);
-                var tiredness = await context.Entities.CallEntityAsync<double>(tirednessEntityId, nameof(TirednessMonitor.GetTeamTiredness));
-                logger.LogWarning("Tiredness: " + tiredness);
-
-                var kitchenEntityId = new EntityInstanceId(nameof(Restaurant), Restaurant.SERVICEKEY + "Pecs");
-                await context.Entities.SignalEntityAsync(restaurantEntityId, nameof(Restaurant.Sell), 5);
-                var psold = await context.Entities.CallEntityAsync<RestaurantEntity>(restaurantEntityId, nameof(Restaurant.GetSoldPizzasCount));
-                logger.LogWarning("Sold: " + psold.PizzasSoldThisDay);
-                await context.Entities.SignalEntityAsync(restaurantEntityId, nameof(Restaurant.Sell), 3);
-                psold = await context.Entities.CallEntityAsync<RestaurantEntity>(restaurantEntityId, nameof(Restaurant.GetSoldPizzasCount));
-                logger.LogWarning("Sold: " + psold.PizzasSoldThisDay);
-
-
-                await context.Entities.SignalEntityAsync(tirednessEntityId, nameof(TirednessMonitor.IncreaseTiredness), 3);
-                */
-                /*var orders = await context.Entities.CallEntityAsync<List<int>>(entityId, "GetOrdersToPhoneNumber", msg.PhoneNumber);
-
-                foreach (var id in orders)
-                {
-                    logger.LogInformation("OrderNum found {id}", id);
-                }
-
-                outputs.Add(await context.CallActivityAsync<string>(nameof(CallMeBaby), "Nancy"));
-                outputs.Add(await context.CallActivityAsync<string>(nameof(CallMeBaby), "Julia"));
-
-                logger.LogInformation(outputs[0]);
-                logger.LogInformation(outputs[1]);*/
             }
             catch (Exception ex)
             {
@@ -150,6 +130,19 @@ namespace AzFunctions
             }
 
             return null;
+        }
+
+        [Function(nameof(PersistOrderCompletionAsync))]
+        public async Task PersistOrderCompletionAsync([ActivityTrigger] Order order)
+        {
+            try
+            {
+                await _orderRepo.CompleteOrder(order.PhoneNumber, order.OrderDate);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
         }
     }
 }

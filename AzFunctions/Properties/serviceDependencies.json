@@ -11,6 +11,9 @@
       "type": "appInsights",
       "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
       "dynamicId": null
+    },
+    "secrets1": {
+      "type": "secrets"
     }
   }
 }

@@ -8,5 +8,8 @@
     "OrdersTopic": "Orders",
     "KitchenSubscription_Bp": "Kitchen_Bp",
     "KitchenSubscription_Pecs": "Kitchen_Pecs"
+  },
+  "Db": {
+    "PizzaDb": "Server=tcp:pizza-db.database.windows.net,1433;Initial Catalog=pizza;Persist Security Info=False;User ID=sckr;Password=Budapest.1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 }

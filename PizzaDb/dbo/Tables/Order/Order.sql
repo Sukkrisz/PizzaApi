@@ -13,4 +13,4 @@
 
 GO
 
-CREATE INDEX [IX_Order_PhoneNumber] ON [dbo].[Order] ([PhoneNumber])
+CREATE INDEX [IX_Order_PhoneNumberOrderDate] ON [dbo].[Order] ([PhoneNumber], [OrderDate])

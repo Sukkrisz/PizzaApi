@@ -13,6 +13,7 @@
         public static string Sp_AttachPizzasToOrder = "spOrder_AddPizzasBulk";
         public static string Sp_GetPizzasToOrder = "spPizza_GetAllToOrder";
         public static string Sp_GetPizzasToOrderWithTime = "spOrder_GetMakeTimesByPhoneNumber";
+        public static string Sp_CompleteOrder = "spOrder_Complete";
 
     }
 }

@@ -3,7 +3,7 @@ using Data.Db.Repositories.Interfaces;
 using Infrastructure.Blob;
 using Infrastructure.Mediator;
 using MediatR;
-using Models.Infrastructure;
+using ModelLibrary.Infrastructure;
 using PizzaAPI.Dtos.Pizza;
 using PizzaAPI.Mappers;
 

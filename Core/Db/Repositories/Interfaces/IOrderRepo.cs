@@ -1,5 +1,5 @@
 ﻿using Data.Db.Models.Order;
-using Models.Shared.Func;
+using ModelLibrary.Shared.Func;
 
 namespace Data.Db.Repositories.Interfaces
 {

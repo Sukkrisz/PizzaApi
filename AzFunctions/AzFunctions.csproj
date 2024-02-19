@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Data.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Models\ModelLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

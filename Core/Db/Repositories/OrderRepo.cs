@@ -9,9 +9,8 @@ using Infrastructure.Settings;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Models.Db;
-using Models.Shared.Func;
-using Shared.Dto;
+using ModelLibrary.Db;
+using ModelLibrary.Shared.Func;
 using System.Data;
 
 namespace Core.Data.Repositories

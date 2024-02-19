@@ -13,6 +13,7 @@ public class Program
         var configBuilder = new ConfigurationBuilder();
 
 #if DEBUG
+        // In debug we read the settings from this file, in azure, this file is not present.
         configBuilder.AddJsonFile("local.settings.json");
 #endif
 
@@ -22,7 +23,6 @@ public class Program
         IHostBuilder hostbuilder = new HostBuilder();
 
         hostbuilder.ConfigureFunctionsWorkerDefaults();
-        
 
         hostbuilder.ConfigureServices(services =>
         {

@@ -1,7 +1,7 @@
-﻿namespace Models.Shared
+﻿namespace ModelLibrary.Shared
 {
     public static class PizzaConstants
     {
-        public static int UtcDiff = +1;
+        public static readonly int UtcDiff = +1;
     }
 }

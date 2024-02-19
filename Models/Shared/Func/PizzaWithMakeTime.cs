@@ -1,4 +1,4 @@
-﻿namespace Models.Shared.Func
+﻿namespace ModelLibrary.Shared.Func
 {
     public struct PizzaWithMakeTime
     {

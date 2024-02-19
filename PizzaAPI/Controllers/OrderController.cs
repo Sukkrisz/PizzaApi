@@ -2,12 +2,10 @@
 using Infrastructure.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Models.Shared;
+using ModelLibrary.Shared;
 using PizzaAPI.Commands;
 using PizzaAPI.Dtos.Order;
 using PizzaAPI.Queries.Order;
-using StackExchange.Redis;
 
 namespace PizzaAPI.Controllers
 {

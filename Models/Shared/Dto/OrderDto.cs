@@ -1,4 +1,4 @@
-﻿namespace Shared.Dto
+﻿namespace ModelLibrary.Shared.Dto
 {
     public class OrderDto
     {

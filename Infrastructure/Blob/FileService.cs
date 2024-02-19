@@ -1,6 +1,5 @@
 ﻿using Azure.Storage.Blobs;
-using Models.Infrastructure;
-using System.ComponentModel;
+using ModelLibrary.Infrastructure;
 
 namespace Infrastructure.Blob
 {

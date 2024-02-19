@@ -1,6 +1,8 @@
-﻿namespace Models.Shared.Func
+﻿using ModelLibrary.Shared;
+
+namespace AzFunctions.Dtos
 {
-    public struct Order
+    public struct OrderFunctionDto
     {
         public string PhoneNumber { get; set; }
 
@@ -8,7 +10,7 @@
 
         public Cities City { get; set; }
 
-        public Order(string phoneNumber, DateTime orderDate, Cities city)
+        public OrderFunctionDto(string phoneNumber, DateTime orderDate, Cities city)
         {
             PhoneNumber = phoneNumber;
             OrderDate = orderDate;

@@ -1,4 +1,4 @@
-﻿using Models.Shared;
+﻿using ModelLibrary.Shared;
 namespace Data.Db.Models.Order
 {
     public struct AddressModel

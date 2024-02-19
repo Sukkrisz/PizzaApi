@@ -1,4 +1,4 @@
-﻿namespace Models.Infrastructure
+﻿namespace ModelLibrary.Infrastructure
 {
     public static class FileServiceConstants
     {

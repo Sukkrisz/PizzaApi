@@ -1,6 +1,4 @@
-﻿using Models.Shared;
-
-namespace Shared.Dto
+﻿namespace ModelLibrary.Shared.Dto
 {
     public struct AddressDto
     {

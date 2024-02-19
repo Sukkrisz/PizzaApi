@@ -1,5 +1,5 @@
 ﻿using Data.Db.Models.Pizza;
-using Models.Shared;
+using ModelLibrary.Shared;
 
 namespace Data.Db.Models.Order
 {

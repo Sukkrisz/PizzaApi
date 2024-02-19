@@ -1,4 +1,4 @@
-﻿namespace Models.Db
+﻿namespace ModelLibrary.Db
 {
     public static class OrderRepoConstants
     {

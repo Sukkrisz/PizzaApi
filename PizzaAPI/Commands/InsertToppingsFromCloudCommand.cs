@@ -3,6 +3,7 @@ using Data.Db.Repositories.Interfaces;
 using Infrastructure.Blob;
 using Infrastructure.Mediator;
 using MediatR;
+using Models.Infrastructure;
 using PizzaAPI.Dtos.Pizza;
 using PizzaAPI.Mappers;
 
@@ -12,6 +13,7 @@ namespace PizzaAPI.Commands
     {
         public struct Request : IRequest<WrapperResult<Response>>
         {
+            public string BlobUrl { get; set; }
         }
 
         public struct Response
@@ -21,10 +23,6 @@ namespace PizzaAPI.Commands
 
         public class Handler : IRequestHandler<Request, WrapperResult<Response>>
         {
-            private const string TOPPINGS_FILE_NAME = "Toppings.txt";
-            private const char LINE_DELIMETER = ';';
-            private const char VALUES_DELIMETER = ',';
-
             private readonly IFileService _fileService;
             private readonly IToppingRepo _toppingRepo;
 
@@ -37,7 +35,7 @@ namespace PizzaAPI.Commands
             public async Task<WrapperResult<Response>> Handle(Request request, CancellationToken cancellationToken)
             {
                 // Download the file containing the toppings from blob storage
-                var downloadedFile = await _fileService.DownloadAsync(TOPPINGS_FILE_NAME);
+                var downloadedFile = await _fileService.DownloadAsync(request.BlobUrl);
 
                 if (downloadedFile is not null)
                 {
@@ -79,7 +77,7 @@ namespace PizzaAPI.Commands
                 var res = new List<ToppingModel>();
 
                 int startIndex = 0;
-                int lineEndIndex = fileContent.IndexOf(LINE_DELIMETER);
+                int lineEndIndex = fileContent.IndexOf(FileServiceConstants.ToppingFileLineDelimeter);
                 var fileLength = fileContent.Length;
 
                 while (lineEndIndex != -1)
@@ -99,7 +97,7 @@ namespace PizzaAPI.Commands
 
                     // +3 because: 1 is the ; character, 2 is \r, 3 is \n
                     startIndex = lineEndIndex + 3;
-                    lineEndIndex = fileContent.IndexOf(LINE_DELIMETER, lineEndIndex + 3);
+                    lineEndIndex = fileContent.IndexOf(FileServiceConstants.ToppingFileLineDelimeter, lineEndIndex + 3);
                 }
 
                 return res;
@@ -107,9 +105,9 @@ namespace PizzaAPI.Commands
 
             private ToppingModel ConvertToTopping(string toppingString)
             {
-                var commaIndex = toppingString.IndexOf(VALUES_DELIMETER);
+                var commaIndex = toppingString.IndexOf(FileServiceConstants.ToppingsFileValueDelimeter);
                 var name = toppingString.Substring(0, commaIndex);
-                var price = ushort.Parse(toppingString.Substring(commaIndex + 1));
+                var price = short.Parse(toppingString.Substring(commaIndex + 1));
 
                 return new ToppingModel(name, price);
             }

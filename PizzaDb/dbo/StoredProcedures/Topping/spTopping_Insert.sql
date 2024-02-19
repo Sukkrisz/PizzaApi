@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spTopping_Insert]
-	@Name int,
+	@Name nvarchar(25),
 	@Price int
 AS
 BEGIN

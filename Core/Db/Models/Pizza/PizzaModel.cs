@@ -10,7 +10,7 @@ namespace Data.Db.Models.Pizza
 
         public string Name { get; set; }
 
-        public ushort Price { get; set; }
+        public short Price { get; set; }
 
         public List<ToppingModel> Toppings { get; set; }
 
@@ -18,7 +18,7 @@ namespace Data.Db.Models.Pizza
         {
         }
 
-        public PizzaModel(string name, ushort price, List<ToppingModel> toppings)
+        public PizzaModel(string name, short price, List<ToppingModel> toppings)
         {
             Name = name;
             Price = price;

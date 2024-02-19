@@ -15,4 +15,8 @@
     <PackageReference Include="StackExchange.Redis" Version="2.7.17" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
+
 </Project>

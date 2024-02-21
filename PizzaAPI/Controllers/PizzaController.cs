@@ -1,8 +1,11 @@
 ﻿using Infrastructure.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Azure.Amqp.Framing;
 using Microsoft.Extensions.Options;
 using PizzaAPI.Queries.Pizza;
+using System.Text.Json;
+using System.Text;
 
 namespace PizzaAPI.Controllers
 {
@@ -60,6 +63,28 @@ namespace PizzaAPI.Controllers
         {
             cacheStore.EvictByTagAsync("Pizzas", cancellationToken);
             return Ok();
+        }
+
+        [HttpGet("GetPriceInEuro")]
+        public async Task<ActionResult> GetPriceInEuro(int price)
+        {
+            HttpClient client = new()
+            {
+                BaseAddress = new Uri("https://api.frankfurter.app")
+            };
+
+            string fromCurrency = "HUF";
+            string toCurrency = "EUR";
+            var apiUrl = $"/latest?amount={price}&from={fromCurrency}&to={toCurrency}";
+            HttpResponseMessage getResponse = await client.GetAsync(apiUrl);
+            if (getResponse.IsSuccessStatusCode)
+            {
+                string content = await getResponse.Content.ReadAsStringAsync();
+                // Deserialize content as needed
+            }
+
+            return Ok();
+
         }
     }
 }

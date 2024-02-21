@@ -5,6 +5,7 @@ BEGIN
 	
 	SELECT
 		p.*,
+		op.Size,
 		t.*
 	FROM [dbo].[OrderPizza] op
 	LEFT JOIN [dbo].[Pizza] p

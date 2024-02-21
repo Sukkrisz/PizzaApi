@@ -1,7 +1,7 @@
 ﻿namespace ModelLibrary.Shared.Func
 {
     [Serializable]
-    public class RestaurantEntity
+    public sealed class RestaurantEntity
     {
         public uint WorkersCount { get; set; }
         public DateTime? BreakStart { get; set; }

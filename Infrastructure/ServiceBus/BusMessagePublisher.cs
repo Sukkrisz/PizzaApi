@@ -6,7 +6,6 @@ namespace Infrastructure.ServiceBus
     public class BusMessagePublisher : IBusMessagePublisher
     {
         private readonly ServiceBusClient _busClient;
-        private static int sessionId = 0;
 
         public BusMessagePublisher(ServiceBusClient busClient)
         {
@@ -22,10 +21,12 @@ namespace Infrastructure.ServiceBus
             string jsonText = JsonSerializer.Serialize(objectToSend);
             var message = new ServiceBusMessage(jsonText)
             {
+                // Session used to be able to process messages in a FIFO manner
                 SessionId = Guid.NewGuid().ToString(),
                 ContentType = "application/json"
             };
 
+            // Filters are like metadata. Based on them, the service bus can send data to one topic or another
             if (filters is not null)
             {
                 foreach (var filter in filters)
@@ -36,8 +37,6 @@ namespace Infrastructure.ServiceBus
 
             // Send the message to the topic.
             await sender.SendMessageAsync(message);
-
-            Console.WriteLine($"Message sent to topic: {topicName} Contents: \r\n{message}");
         }
     }
 }

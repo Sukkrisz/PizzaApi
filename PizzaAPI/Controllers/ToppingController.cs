@@ -3,10 +3,10 @@ using Azure.Messaging.EventGrid;
 using Microsoft.AspNetCore.Mvc;
 using PizzaAPI.Commands;
 using System.Text.Json;
-using Core.Data.Repositories;
-using Data.Db.Repositories.Interfaces;
 using Azure;
 using Infrastructure.Blob;
+using Database.Repositories;
+using Database.Repositories.Interfaces;
 
 namespace PizzaAPI.Controllers
 {
@@ -105,13 +105,13 @@ namespace PizzaAPI.Controllers
         }
 
         [HttpPost("Upload")]
-        public async Task<ActionResult> Upload(IFormFile file)
+        public async Task<ActionResult> Upload(IFormFile file, CancellationToken cancellationToken)
         {
             using (var ms = new MemoryStream())
             {
                 await file.CopyToAsync(ms); // Copy content from IFormFile to MemoryStream
                 ms.Seek(0, SeekOrigin.Begin); // Seek to the beginning of the MemoryStream
-                await _fs.UploadAsync(ms);
+                await _fs.UploadAsync(ms, cancellationToken);
             }
             return Ok();
         }

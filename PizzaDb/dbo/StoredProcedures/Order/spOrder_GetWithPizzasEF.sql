@@ -2,7 +2,7 @@
 	@OrderId int
 AS
 BEGIN
-	SELECT o.Id, o.PhoneNumber, o.OrderDate, c.Comment, a.*, p.*, t.*
+	SELECT o.Id, o.PhoneNumber, o.OrderDate, c.Comment, a.*, p.*, op.Size, t.*
 	FROM [dbo].[Order] o
 		LEFT JOIN [dbo].[OrderComment] c on c.Id = o.CommentId
 		LEFT JOIN [dbo].[Address] a on a.Id = o.AddressId
@@ -12,5 +12,5 @@ BEGIN
 			LEFT JOIN [dbo].[Topping] t on t.Id = pt.ToppingId
 	WHERE o.Id = @OrderId;
 
-RETURN 0
+RETURN 1
 END

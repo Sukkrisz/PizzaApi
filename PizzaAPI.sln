@@ -5,15 +5,17 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaAPI", "PizzaAPI\PizzaAPI.csproj", "{EC91A2FF-F748-4B1E-85D9-58F2FD256072}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Core\Data.csproj", "{34F84EAF-8123-46EB-B735-E9CF5F8185E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Core\Database.csproj", "{34F84EAF-8123-46EB-B735-E9CF5F8185E6}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PizzaDb", "PizzaDb\PizzaDb.sqlproj", "{6DB416AC-47B6-4B4D-820E-91E21538CEAC}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PizzaSQL", "PizzaDb\PizzaSQL.sqlproj", "{6DB416AC-47B6-4B4D-820E-91E21538CEAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{92A8FBC7-501D-4A0E-94FF-59D561118069}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzFunctions", "AzFunctions\AzFunctions.csproj", "{038828EF-3A62-4F42-B417-E14B09153BCC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelLibrary", "Models\ModelLibrary.csproj", "{3E9E161A-8940-42A1-AF1A-4F064172FC20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DB52880A-AC34-4540-971C-07C9C73473F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E9E161A-8940-42A1-AF1A-4F064172FC20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB52880A-AC34-4540-971C-07C9C73473F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB52880A-AC34-4540-971C-07C9C73473F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB52880A-AC34-4540-971C-07C9C73473F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB52880A-AC34-4540-971C-07C9C73473F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
-using Core.Data.Repositories;
-using Data.Db.DbAccess;
-using Data.Db.Repositories.Interfaces;
+using Database.DbAccess;
+using Database.Repositories;
+using Database.Repositories.Interfaces;
 using Infrastructure.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

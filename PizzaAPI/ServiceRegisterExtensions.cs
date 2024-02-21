@@ -1,9 +1,10 @@
-﻿using Core.Data.Repositories;
-using Infrastructure.Settings;
-using Data.Db.Repositories.Interfaces;
+﻿using Infrastructure.Settings;
 using Infrastructure.Blob;
 using Azure.Messaging.ServiceBus;
 using Infrastructure.ServiceBus;
+using Database.DbAccess;
+using Database.Repositories;
+using Database.Repositories.Interfaces;
 
 namespace PizzaAPI
 {

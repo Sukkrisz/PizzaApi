@@ -1,4 +1,4 @@
-﻿using Data.Db.Models.Pizza;
+﻿using Database.Models.Pizza;
 using PizzaAPI.Dtos.Pizza;
 
 namespace PizzaAPI.Mappers
@@ -7,7 +7,7 @@ namespace PizzaAPI.Mappers
     {
         public static ToppingDto ToDto(this ToppingModel model)
         {
-            return new ToppingDto(model.Name, model.Price);
+            return new ToppingDto(model.Name, model.PrepareTime);
         }
 
         public static ToppingModel ToModel(this ToppingDto dto)

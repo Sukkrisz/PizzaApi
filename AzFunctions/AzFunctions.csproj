@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Data.csproj" />
+    <ProjectReference Include="..\Core\Database.csproj" />
     <ProjectReference Include="..\Models\ModelLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>

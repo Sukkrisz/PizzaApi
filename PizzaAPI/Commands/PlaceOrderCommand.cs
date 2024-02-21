@@ -1,4 +1,4 @@
-﻿using Data.Db.Repositories.Interfaces;
+﻿using Database.Repositories.Interfaces;
 using Infrastructure.Mediator;
 using MediatR;
 using PizzaAPI.Dtos.Order;
@@ -8,12 +8,12 @@ namespace PizzaAPI.Commands
 {
     public static class PlaceOrderCommand
     {
-        public class Request :IRequest<MyResult>
+        public class Request :IRequest<WrapperResult>
         {
             public OrderDto Order { get; set; }
         }
 
-        public class Handler : IRequestHandler<Request, MyResult>
+        public class Handler : IRequestHandler<Request, WrapperResult>
         {
             private readonly IOrderRepo _orderRepo;
 
@@ -22,7 +22,7 @@ namespace PizzaAPI.Commands
                 _orderRepo = orderRepo;
             }
 
-            public async Task<MyResult> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<WrapperResult> Handle(Request request, CancellationToken cancellationToken)
             {
                 try
                 {
@@ -30,11 +30,11 @@ namespace PizzaAPI.Commands
                     var pizzas = request.Order.Pizzas.Select(p => p.ToModel()).ToArray();
                     await _orderRepo.Create(model, pizzas);
 
-                    return MyResult.Ok();
+                    return WrapperResult.Ok();
                 }
                 catch (Exception ex)
                 {
-                    return MyResult.Failed(ex.Message);
+                    return WrapperResult.Failed(ex.Message);
                 }
             }
         }

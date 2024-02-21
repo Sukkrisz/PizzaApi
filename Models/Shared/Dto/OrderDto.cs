@@ -1,6 +1,6 @@
 ﻿namespace ModelLibrary.Shared.Dto
 {
-    public class OrderDto
+    public sealed class OrderDto
     {
         public string PhoneNumber { get; set; }
 

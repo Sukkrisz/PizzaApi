@@ -6,6 +6,7 @@ namespace Infrastructure.Mediator
     {
         public static IServiceCollection AddMediatRToAssemblies(this IServiceCollection services)
         {
+            // Mediatr searches for requests and handler in the defined assemblies
             var projectsToAddTo = new string[] { "Data", "PizzaApi" };
             var assembliesToAddTo = AppDomain.CurrentDomain.GetAssemblies().Where(a =>
                                                                                     !a.IsDynamic &&

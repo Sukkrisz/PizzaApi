@@ -1,4 +1,4 @@
-﻿using Data.Db.Models.Order;
+﻿using Database.Models.Order;
 using PizzaAPI.Dtos.Order;
 
 namespace PizzaAPI.Mappers

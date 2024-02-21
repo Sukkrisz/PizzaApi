@@ -2,7 +2,7 @@ using System.Text.Json;
 using AzFunctions.Dtos;
 using AzFunctions.DurableEntities;
 using Azure.Messaging.ServiceBus;
-using Data.Db.Repositories.Interfaces;
+using Database.Repositories.Interfaces;
 using Infrastructure.Settings;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;

@@ -1,5 +1,4 @@
-﻿using Data.Db.Models.Pizza;
-using Data.Db.Repositories.Interfaces;
+﻿using Database.Repositories.Interfaces;
 using Infrastructure.Mediator;
 using MediatR;
 using PizzaAPI.Dtos.Pizza;

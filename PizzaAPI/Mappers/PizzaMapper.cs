@@ -1,4 +1,4 @@
-﻿using Data.Db.Models.Pizza;
+﻿using Database.Models.Pizza;
 using PizzaAPI.Dtos.Pizza;
 
 namespace PizzaAPI.Mappers
@@ -13,7 +13,7 @@ namespace PizzaAPI.Mappers
 
         public static PizzaDto ToDto(this PizzaModel pizza)
         {
-            var toppings = pizza.Toppings?.Select(t => new ToppingDto(t.Name, t.Price)).ToArray();
+            var toppings = pizza.Toppings?.Select(t => new ToppingDto(t.Name, t.PrepareTime)).ToArray();
             return new PizzaDto(pizza.Name, pizza.Price, toppings);
         }
     }

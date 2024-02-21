@@ -5,19 +5,8 @@ BEGIN
 	DECLARE @defaultTopping1 nvarchar(15) =  'Paradicsomszósz';
 	DECLARE @defaultTopping2 nvarchar(15) = 'Mozarella sajt';
 
-	-- Default topping 1
-	IF NOT EXISTS(SELECT 1 FROM [dbo].[Topping] WHERE [Name] = @defaultTopping1)
-	BEGIN
-		INSERT INTO [dbo].[Topping] ([Name], [PrepareTime])
-		VALUES (@defaultTopping1, 15);
-	END
-
-	-- Default topping 2
-	IF NOT EXISTS(SELECT TOP 1 Id FROM [dbo].[Topping] WHERE [Name] = @defaultTopping2)
-	BEGIN
-		INSERT INTO [dbo].[Topping] ([Name], [PrepareTime])
-		VALUES (@defaultTopping2, 20);
-	END
+	-- Insert if not present in the db yet
+	EXEC [dbo].[_SpInit_DefaultToppings] @ToppingParam1 = @defaultTopping1, @ToppingParam2 = @defaultTopping2
 
 	-- Set aside their Id's so, that we can connect the two later on with the pizzas
 	DECLARE @defaultToppingId1 int;
@@ -51,7 +40,19 @@ BEGIN
 	OUTPUT inserted.Id INTO @insertedPizzaIds
 	SELECT * FROM @tmpPizzas;
 
+	WITH TmpPizzaTopping AS(
+		SELECT Id as PizzaId, @defaultToppingId1 as ToppingId
+		FROM @insertedPizzaIds
+		UNION
+		SELECT Id as PizzaId, @defaultTopping2 as ToppingId
+		FROM @insertedPizzaIds
+	)
+
+	INSERT INTO [dbo].[PizzaTopping] (PizzaId, ToppingId)
+	SELECT PizzaId, ToppingId
+	FROM TmpPizzaTopping
 	--
+	/*
 	DECLARE @cursor CURSOR;
 	DECLARE @currentPizzaId int;
 	BEGIN
@@ -75,7 +76,7 @@ BEGIN
 
 		CLOSE @cursor;
 		DEALLOCATE @cursor;
-	END;
+	END;*/
 
 	return 1;
 END;

@@ -1,0 +1,3 @@
+Sonka,100;
+Gomba,80;
+Szalámi,130;

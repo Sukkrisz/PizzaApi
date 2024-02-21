@@ -1,5 +1,6 @@
 using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
+using Infrastructure.Blob;
 
 namespace PizzaAPI
 {
@@ -39,7 +40,8 @@ namespace PizzaAPI
             services.AddMediatRToAssemblies();
 
             // Blolb storage
-            services.AddSingleton(x => new BlobServiceClient(config.GetConnectionString("Blob")));
+            services.AddTransient<IAzureServiceClientWrapper, AzureServiceClientWrapper>(x => 
+                                                                        new AzureServiceClientWrapper(config.GetConnectionString("Blob")));
 
             // Azure service bus
             services.AddServiceBus(config);

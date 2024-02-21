@@ -1,18 +1,17 @@
-﻿using Azure.Storage.Blobs;
-using ModelLibrary.Infrastructure;
+﻿using ModelLibrary.Infrastructure;
 
 namespace Infrastructure.Blob
 {
     public class FileService : IFileService
     {
-        private readonly BlobServiceClient _azureClient;
+        private readonly IAzureServiceClientWrapper _azureClient;
 
-        public FileService(BlobServiceClient client)
+        public FileService(IAzureServiceClientWrapper client)
         {
             _azureClient = client;
         }
 
-        public async Task<MemoryStream> DownloadAsync(string blobUrl)
+        public async Task<string?> DownloadAsync(string blobUrl)
         {
             // The container name could have been burnt it. It would spare some perf, but thisway it's more reusable
             var containerName = Path.GetDirectoryName(new Uri(blobUrl).AbsolutePath);
@@ -20,26 +19,25 @@ namespace Infrastructure.Blob
             var fileName = Path.GetFileName(blobUrl);
 
             var containerClient = _azureClient.GetBlobContainerClient(containerName);
-            var fileClient = containerClient.GetBlobClient(fileName);
+            var fileClient = containerClient.GetBlobFileClient(fileName);
 
-            var ms = new MemoryStream();
-            await fileClient.DownloadToAsync(ms);
-
-            return ms;
+            var downloadedFileContent = await fileClient.DownloadFileAsync(blobUrl);
+            return downloadedFileContent;
         }
 
-        public async Task UploadAsync(MemoryStream memoryStream)
+        public async Task UploadAsync(MemoryStream memoryStream, CancellationToken cancellationToken)
         {
             var containerClient = _azureClient.GetBlobContainerClient(FileServiceConstants.ToppingBlobContainer);
 
-            var blobResults = containerClient.GetBlobs(
+            // Get all the non-deleted file infos from Azure
+            var foundFileNames = containerClient.GetBlobNamesInContainer(
                                                         Azure.Storage.Blobs.Models.BlobTraits.None,
                                                         Azure.Storage.Blobs.Models.BlobStates.None,
-                                                        null, CancellationToken.None);
-            var nextFileName = GetNextFileName(blobResults.Select(br => br.Name).ToArray());
+                                                        cancellationToken);
+            var nextFileName = GetNextFileName(foundFileNames);
 
-            BlobClient blobClient = containerClient.GetBlobClient(nextFileName);
-            await blobClient.UploadAsync(memoryStream, true);
+            var blobClient = containerClient.GetBlobFileClient(nextFileName);
+            await blobClient.UploadAsync(memoryStream);
         }
 
         private string GetNextFileName(string[] previousFileNames)

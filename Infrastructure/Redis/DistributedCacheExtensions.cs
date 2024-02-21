@@ -5,6 +5,7 @@ namespace Infrastructure.Redis
 {
     public static class DistributedCacheExtensions
     {
+        // Used for storeing a value into redis
         public static async Task SetRecordAsync<T>(this IDistributedCache cache,
             string recordKey,
             T data,
@@ -13,7 +14,14 @@ namespace Infrastructure.Redis
         {
             var options = new DistributedCacheEntryOptions();
 
+            // How long the cache should be stored
             options.AbsoluteExpirationRelativeToNow = expireTime ?? TimeSpan.FromSeconds(60);
+
+            // By default we use the absolute for expiration time
+            // Sliding is used for checking for idle caches.
+            // For example if absolute is 1hr, and the sliding is set to 5 mins, then if there's a lot of traffic
+            // the cache will be stored for 1 hr, before it's refreshed.
+            // But if no one accessed the data for 5 mins, then we'd get rid of the cache
             options.SlidingExpiration = unusedExipreTime;
 
             var jsonData = JsonSerializer.Serialize(data);

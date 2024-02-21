@@ -1,5 +1,5 @@
-﻿using Data.Db.Models.Pizza;
-using Data.Db.Repositories.Interfaces;
+﻿using Database.Models.Pizza;
+using Database.Repositories.Interfaces;
 using Infrastructure.Blob;
 using Infrastructure.Mediator;
 using MediatR;
@@ -35,15 +35,14 @@ namespace PizzaAPI.Commands
             public async Task<WrapperResult<Response>> Handle(Request request, CancellationToken cancellationToken)
             {
                 // Download the file containing the toppings from blob storage
-                var downloadedFile = await _fileService.DownloadAsync(request.BlobUrl);
+                var downloadedFileContent = await _fileService.DownloadAsync(request.BlobUrl);
 
-                if (downloadedFile is not null)
+                if (downloadedFileContent is not null)
                 {
-                    if (downloadedFile.Length > 0)
+                    if (downloadedFileContent != string.Empty)
                     {
                         // Convert the file content to model objects
-                        var fileContent = System.Text.Encoding.UTF8.GetString(downloadedFile.ToArray());
-                        var toppings = GetToppingsFromString(fileContent);
+                        var toppings = GetToppingsFromString(downloadedFileContent);
 
                         // Save the model objects to the db
                         var success = await _toppingRepo.BulkInsertAsync(toppings);

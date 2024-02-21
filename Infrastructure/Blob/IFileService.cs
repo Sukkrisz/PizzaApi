@@ -2,7 +2,7 @@
 {
     public interface IFileService
     {
-        Task<MemoryStream> DownloadAsync(string name);
-        Task UploadAsync(MemoryStream fileStreamToUpload);
+        Task<string?> DownloadAsync(string blobUrl);
+        Task UploadAsync(MemoryStream fileStreamToUpload, CancellationToken cancellationToken);
     }
 }

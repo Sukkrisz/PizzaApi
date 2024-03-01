@@ -1,6 +1,6 @@
 ﻿using Database.Models.Pizza;
 using Database.Repositories.Interfaces;
-using Infrastructure.Blob;
+using Infrastructure.Blob.Interfaces;
 using Infrastructure.Mediator;
 using MediatR;
 using ModelLibrary.Infrastructure;

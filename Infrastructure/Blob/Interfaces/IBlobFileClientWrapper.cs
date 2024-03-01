@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Blob
+﻿namespace Infrastructure.Blob.Interfaces
 {
     public interface IBlobFileClientWrapper
     {

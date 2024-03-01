@@ -5,6 +5,7 @@ using Infrastructure.ServiceBus;
 using Database.DbAccess;
 using Database.Repositories;
 using Database.Repositories.Interfaces;
+using Infrastructure.Blob.Interfaces;
 
 namespace PizzaAPI
 {
@@ -17,12 +18,12 @@ namespace PizzaAPI
             services.AddOptions();
 
             // Data access services
-            services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-            services.AddSingleton<IFileService, FileService>();
-            services.AddSingleton<IToppingRepo, ToppingRepo>();
-            services.AddSingleton<IPizzaRepo, PizzaRepo>();
-            services.AddSingleton<IOrderRepo, OrderRepo>();
-            services.AddSingleton<IBusMessagePublisher, BusMessagePublisher>();
+            services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IToppingRepo, ToppingRepo>();
+            services.AddTransient<IPizzaRepo, PizzaRepo>();
+            services.AddTransient<IOrderRepo, OrderRepo>();
+            services.AddTransient<IBusMessagePublisher, BusMessagePublisher>();
         }
 
         public static IServiceCollection AddMediatRToAssemblies(this IServiceCollection services)

@@ -1,6 +1,7 @@
 using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
-using Infrastructure.Blob;
+using Infrastructure.Blob.Interfaces;
+using Infrastructure.Blob.Wrappers;
 
 namespace PizzaAPI
 {

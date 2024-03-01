@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs.Models;
 
-namespace Infrastructure.Blob
+namespace Infrastructure.Blob.Interfaces
 {
     public interface IBlobCotainerClientWrapper
     {

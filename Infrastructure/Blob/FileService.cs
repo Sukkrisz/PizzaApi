@@ -1,10 +1,12 @@
-﻿using ModelLibrary.Infrastructure;
+﻿using Infrastructure.Blob.Interfaces;
+using ModelLibrary.Infrastructure;
 
 namespace Infrastructure.Blob
 {
     public class FileService : IFileService
     {
         private readonly IAzureServiceClientWrapper _azureClient;
+        internal int m;
 
         public FileService(IAzureServiceClientWrapper client)
         {

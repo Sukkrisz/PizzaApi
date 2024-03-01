@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaAPI.Commands;
 using System.Text.Json;
 using Azure;
-using Infrastructure.Blob;
 using Database.Repositories;
 using Database.Repositories.Interfaces;
+using Infrastructure.Blob.Interfaces;
 
 namespace PizzaAPI.Controllers
 {
@@ -115,6 +115,5 @@ namespace PizzaAPI.Controllers
             }
             return Ok();
         }
-
     }
 }

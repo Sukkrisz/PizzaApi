@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 
-namespace Infrastructure.Blob
+namespace Infrastructure.Blob.Interfaces
 {
     public interface IAzureServiceClientWrapper
     {

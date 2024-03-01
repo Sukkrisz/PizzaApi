@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
+using Infrastructure.Blob.Interfaces;
 
-namespace Infrastructure.Blob
+namespace Infrastructure.Blob.Wrappers
 {
     public class BlobFileClientWrapper : IBlobFileClientWrapper
     {
